@@ -20,6 +20,7 @@ body {
   background: radial-gradient(1200px 600px at 20% -10%, #14202b 0%, rgba(20,32,43,0) 50%),
              radial-gradient(1000px 500px at 120% 10%, #0e1b25 0%, rgba(14,27,37,0) 50%),
              var(--bg);
+  line-height: 1.55;
 }
 
 .container { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 20px; }
@@ -52,6 +53,7 @@ body {
 h1 { font-size: 40px; line-height: 1.1; margin: 0 0 12px; }
 h2 { font-size: 28px; margin: 0 0 10px; }
 h3 { font-size: 18px; margin: 0 0 8px; }
+.lead, p, li { max-width: 72ch; }
 .lead { font-size: 18px; color: var(--text); opacity: 0.95; }
 .hl { color: var(--accent); }
 .muted { color: var(--muted); }
@@ -104,4 +106,8 @@ h3 { font-size: 18px; margin: 0 0 8px; }
   .hero { padding-top: 48px; }
   h1 { font-size: 32px; }
 }
+
+/* A/B: variante de héroe B (cambia titular y énfasis) */
+[data-variant="B"] .hero h1 { color: var(--accent); }
+[data-variant="B"] .hero .lead { opacity: 1; }
 

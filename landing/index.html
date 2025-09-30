@@ -3,20 +3,46 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Master de Actualización en Calidad Comercial de Cereales</title>
-    <meta name="description" content="Actualizá tus habilidades como Perito Clasificador de Cereales. Domina negociación por calidad, estándares, muestreo, micotoxinas, calibración y reclamos." />
+    <title>Master en Calidad Comercial de Cereales | Actualización para Peritos</title>
+    <meta name="description" content="Master de actualización para Peritos Clasificadores. Negociación por calidad, normativa, muestreo, micotoxinas, calibración, reclamos y BI. Cohorte en 2 semanas." />
 
-    <meta property="og:title" content="Master de Actualización en Calidad Comercial de Cereales" />
+    <link rel="canonical" href="https://cerealesmaster.vercel.app/" />
+    <meta property="og:title" content="Master en Calidad Comercial de Cereales | Actualización para Peritos" />
     <meta property="og:description" content="De técnico operativo a referente en calidad comercial. 8 semanas, certificación y casos reales. Early-bird activo." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="" />
-    <meta property="og:image" content="" />
+    <meta property="og:url" content="https://cerealesmaster.vercel.app/" />
+    <meta property="og:image" content="https://cerealesmaster.vercel.app/og.jpg" />
+    <meta property="og:locale" content="es_AR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Master en Calidad Comercial de Cereales" />
+    <meta name="twitter:description" content="Actualización avanzada para Peritos Clasificadores. 8 semanas, casos reales y certificación." />
+    <meta name="twitter:image" content="https://cerealesmaster.vercel.app/og.jpg" />
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="./styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Course",
+        "name": "Master en Calidad Comercial de Cereales",
+        "description": "Actualización avanzada para Peritos Clasificadores: normativa, muestreo, micotoxinas, calibración, negociación y BI.",
+        "provider": {"@type": "Organization", "name": "Instituto • Calidad Comercial"},
+        "educationalCredentialAwarded": "Certificación verificable",
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "startDate": "2025-10-14",
+          "endDate": "2025-12-09",
+          "location": {"@type": "VirtualLocation", "url": "https://cerealesmaster.vercel.app/"}
+        }
+      }
+    </script>
+    <!-- Vercel Analytics -->
+    <script defer src="/vitals.js"></script>
   </head>
   <body>
     <header class="site-header">
@@ -39,7 +65,8 @@
       <div class="container grid-2">
         <div>
           <h1>Master de Actualización en <span class="hl">Calidad Comercial de Cereales</span></h1>
-          <p class="lead">Pensado para profesionales recibidos como <strong>Perito Clasificador de Cereales</strong> que buscan pasar de técnico operativo a <strong>referente</strong> en calidad comercial.</p>
+          <p class="lead" data-variant-a>Pensado para profesionales recibidos como <strong>Perito Clasificador de Cereales</strong> que buscan pasar de técnico operativo a <strong>referente</strong> en calidad comercial.</p>
+          <p class="lead" data-variant-b style="display:none">Pasá a capturar <strong>+1,5–3 USD/t</strong> negociando diferenciales y reducí <strong>-20%</strong> rechazos en 90 días. Programa avanzado con casos reales.</p>
           <ul class="hero-points">
             <li><strong>-20%</strong> rechazos/penalidades por desvíos en 90 días</li>
             <li><strong>+1,5–3 USD/t</strong> por diferenciales de calidad bien negociados</li>
@@ -213,6 +240,14 @@
 
     <script>
       document.getElementById('year').textContent = new Date().getFullYear();
+      (function(){
+        try {
+          var v = document.documentElement.getAttribute('data-variant') || 'A';
+          var a = document.querySelector('[data-variant-a]');
+          var b = document.querySelector('[data-variant-b]');
+          if(v === 'B' && a && b){ a.style.display='none'; b.style.display='block'; }
+        } catch(e){}
+      })();
     </script>
   </body>
   </html>
