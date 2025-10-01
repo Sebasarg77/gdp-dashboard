@@ -1,14 +1,29 @@
 :root {
-  --bg: #0b0d10;
-  --bg-alt: #11151a;
-  --card: #151a21;
-  --text: #e6eef8;
-  --muted: #9bb0c3;
-  --primary: #51c878;
-  --primary-900: #2a8b4b;
-  --secondary: #6aa5ff;
-  --accent: #ffd166;
-  --danger: #ff6b6b;
+  /* Moderna-Educativa (default) */
+  --bg: #ffffff;
+  --bg-alt: #f6f8fb;
+  --card: #ffffff;
+  --text: #121417;
+  --muted: #5e6b78;
+  --primary: #42a0c2; /* celeste */
+  --primary-900: #1e6a84;
+  --secondary: #feb028; /* naranja */
+  --accent: #0b6ea9; /* enfatizar links/llamadas */
+  --danger: #c6373b;
+}
+
+/* Tema Natural-Agro */
+[data-theme="natural-agro"] {
+  --bg: #f6f4ef; /* beige claro */
+  --bg-alt: #efe9dd; /* beige cálido */
+  --card: #ffffff;
+  --text: #2a2a2a;
+  --muted: #6b6b6b;
+  --primary: #3d8c5a; /* verde */
+  --primary-900: #2a6a44;
+  --secondary: #b8860b; /* dorado */
+  --accent: #6b4f2a; /* marrón medio */
+  --danger: #b04a3f;
 }
 
 * { box-sizing: border-box; }
@@ -17,27 +32,25 @@ body {
   margin: 0;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   color: var(--text);
-  background: radial-gradient(1200px 600px at 20% -10%, #14202b 0%, rgba(20,32,43,0) 50%),
-             radial-gradient(1000px 500px at 120% 10%, #0e1b25 0%, rgba(14,27,37,0) 50%),
-             var(--bg);
+  background: var(--bg);
   line-height: 1.55;
 }
 
 .container { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 20px; }
 
-.site-header { position: sticky; top: 0; z-index: 30; background: rgba(11,13,16,0.7); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+.site-header { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.06); }
 .site-header .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: 0.2px; }
 .brand .logo { font-size: 20px; }
 .site-nav { display: flex; gap: 18px; align-items: center; }
-.site-nav a { color: var(--text); text-decoration: none; font-weight: 500; opacity: 0.9; }
+.site-nav a { color: var(--text); text-decoration: none; font-weight: 600; opacity: 0.9; }
 .site-nav a:hover { opacity: 1; }
 .site-nav a:focus-visible, .btn:focus-visible, .sticky-wa:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 10px; }
 
 .btn { display: inline-flex; align-items: center; gap: 10px; border-radius: 10px; padding: 12px 16px; text-decoration: none; font-weight: 700; letter-spacing: 0.3px; }
-.btn.btn-primary { background: var(--primary); color: #072412; box-shadow: 0 10px 18px rgba(81,200,120,0.25); }
-.btn.btn-secondary { background: var(--secondary); color: #06132d; box-shadow: 0 10px 18px rgba(106,165,255,0.25); }
-.btn.btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.12); color: var(--text); }
+.btn.btn-primary { background: var(--primary); color: #ffffff; box-shadow: 0 10px 18px rgba(66,160,194,0.22); }
+.btn.btn-secondary { background: var(--secondary); color: #222222; box-shadow: 0 10px 18px rgba(254,176,40,0.24); }
+.btn.btn-ghost { background: transparent; border: 1px solid rgba(0,0,0,0.12); color: var(--text); }
 .btn.btn-wa { background: #25D366; color: #062a14; }
 .btn.btn-lg { padding: 16px 22px; font-size: 18px; }
 .btn-block { width: 100%; justify-content: center; }
@@ -45,7 +58,7 @@ body {
   * { animation: none !important; transition: none !important; }
 }
 
-.hero { padding: 72px 0 24px; }
+.hero { padding: 72px 0 24px; background: linear-gradient(180deg, var(--bg-alt), rgba(255,255,255,0)); }
 .grid-2 { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 28px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .cards { align-items: stretch; }
@@ -64,12 +77,12 @@ h3 { font-size: 18px; margin: 0 0 8px; }
 .cta-group { display: flex; gap: 12px; margin: 16px 0 8px; flex-wrap: wrap; }
 .note { color: var(--muted); font-size: 14px; }
 
-.card { background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 16px; }
+.card { background: var(--card); border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; padding: 16px; box-shadow: 0 8px 18px rgba(0,0,0,0.04); }
 .card.trust ul { padding-left: 18px; }
 .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 12px 0; }
 
 .section { padding: 48px 0; }
-.section.alt { background: linear-gradient(0deg, rgba(255,255,255,0.02), rgba(255,255,255,0)); }
+.section.alt { background: var(--bg-alt); }
 
 .syllabus { margin-top: 8px; }
 .resources { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
@@ -85,8 +98,8 @@ h3 { font-size: 18px; margin: 0 0 8px; }
 .pricing .price .price-tag .old { color: var(--muted); text-decoration: line-through; margin-right: 8px; }
 .pricing .price .price-tag .new { color: var(--accent); font-weight: 800; }
 .pricing .price .guarantee { color: var(--muted); font-size: 13px; margin-top: 10px; }
-.pricing .featured { border-color: rgba(255,209,102,0.5); box-shadow: 0 0 0 1px rgba(255,209,102,0.2) inset, 0 10px 24px rgba(255,209,102,0.12); }
-.pricing .featured .ribbon { position: absolute; top: -12px; right: 12px; background: var(--accent); color: #2b1e00; font-size: 12px; font-weight: 900; padding: 4px 8px; border-radius: 6px; }
+.pricing .featured { border-color: rgba(0,0,0,0.1); box-shadow: 0 0 0 1px rgba(0,0,0,0.06) inset, 0 10px 24px rgba(0,0,0,0.06); }
+.pricing .featured .ribbon { position: absolute; top: -12px; right: 12px; background: var(--secondary); color: #2b1e00; font-size: 12px; font-weight: 900; padding: 4px 8px; border-radius: 6px; }
 
 .list { padding-left: 18px; }
 
@@ -95,7 +108,7 @@ h3 { font-size: 18px; margin: 0 0 8px; }
 
 .sticky-wa { position: fixed; right: 20px; bottom: 20px; background: #25D366; color: #062a14; text-decoration: none; font-weight: 800; padding: 12px 14px; border-radius: 999px; box-shadow: 0 10px 24px rgba(37,211,102,0.35); z-index: 50; }
 
-.site-footer { border-top: 1px solid rgba(255,255,255,0.06); background: var(--bg-alt); }
+.site-footer { border-top: 1px solid rgba(0,0,0,0.06); background: var(--bg-alt); }
 .site-footer .container { padding: 16px 20px; }
 .site-footer p { margin: 6px 0; color: var(--muted); }
 .site-footer .small { font-size: 12px; }
