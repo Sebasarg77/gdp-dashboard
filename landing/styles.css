@@ -107,6 +107,11 @@ h3 { font-size: 18px; margin: 0 0 8px; }
 
 .section { padding: 48px 0; }
 .section.alt { background: var(--bg-alt); }
+.section.section-temario { background: #eaf7fb; }
+.section#beneficios { background: #fdf7ea; }
+.section#testimonios { background: #eef6e6; }
+.section.section-formador { background: #f4f6f8; }
+.cta-final { background: #fff8e8; }
 
 .syllabus { margin-top: 8px; }
 .syllabus-cards { margin-top: 8px; }
