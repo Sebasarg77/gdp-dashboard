@@ -1,14 +1,15 @@
 :root {
-  /* Moderna-Educativa (default) */
-  --bg: #ffffff;
-  --bg-alt: #f6f8fb;
-  --card: #ffffff;
-  --text: #121417;
-  --muted: #5e6b78;
-  --primary: #42a0c2; /* celeste */
+  /* Moderna-Educativa (default) — paleta solicitada */
+  --bg: #ffffff; /* fondo base */
+  --bg-alt: #f5f7f9; /* gris claro para alternar secciones */
+  --card: #ffffff; /* tarjetas */
+  --text: #374244; /* gris oscuro para texto y footer */
+  --muted: #5e6b78; /* texto secundario */
+  --primary: #42a0c2; /* celeste (headers/acento) */
   --primary-900: #1e6a84;
-  --secondary: #feb028; /* naranja */
-  --accent: #0b6ea9; /* enfatizar links/llamadas */
+  --secondary: #feb028; /* naranja (CTA) */
+  --green: #8fbf4d; /* verde trigo (secundario) */
+  --accent: #42a0c2; /* acentos/links */
   --danger: #c6373b;
   /* fondos para módulos */
   --mod1-bg: #e8f5fb;
@@ -71,8 +72,8 @@ body {
 .brand-img { height: 24px; width: auto; display: block; }
 
 .btn { display: inline-flex; align-items: center; gap: 10px; border-radius: 10px; padding: 12px 16px; text-decoration: none; font-weight: 700; letter-spacing: 0.3px; }
-.btn.btn-primary { background: var(--primary); color: #ffffff; box-shadow: 0 10px 18px rgba(66,160,194,0.22); }
-.btn.btn-secondary { background: var(--secondary); color: #222222; box-shadow: 0 10px 18px rgba(254,176,40,0.24); }
+.btn.btn-primary { background: var(--secondary); color: #1a1a1a; box-shadow: 0 10px 18px rgba(254,176,40,0.28); }
+.btn.btn-secondary { background: var(--primary); color: #ffffff; box-shadow: 0 10px 18px rgba(66,160,194,0.22); }
 .btn.btn-ghost { background: transparent; border: 1px solid rgba(0,0,0,0.12); color: var(--text); }
 .btn.btn-wa { background: #25D366; color: #062a14; }
 .btn.btn-lg { padding: 16px 22px; font-size: 18px; }
@@ -87,7 +88,7 @@ body {
 .cards { align-items: stretch; }
 
 h1 { font-size: 40px; line-height: 1.1; margin: 0 0 12px; }
-h2 { font-size: 28px; margin: 0 0 10px; }
+h2 { font-size: 28px; margin: 0 0 10px; color: var(--primary); }
 h3 { font-size: 18px; margin: 0 0 8px; }
 .lead, p, li { max-width: 72ch; }
 .lead { font-size: 18px; color: var(--text); opacity: 0.95; }
