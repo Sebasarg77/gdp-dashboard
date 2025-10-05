@@ -1,0 +1,11 @@
+data/
+streamlit_app.py
+requirements.txt
+*.py
+*.pyc
+__pycache__/
+.git/
+.gitignore
+*.md
+!DEPLOYMENT.md
+LICENSE
