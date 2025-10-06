@@ -716,36 +716,178 @@
         }
         
         .certificate {
-            border: 4px solid #4CAF50;
-            padding: 2rem;
-            border-radius: 12px;
+            position: relative;
+            padding: 3rem;
+            border-radius: 16px;
             text-align: center;
-            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            background: 
+                linear-gradient(135deg, #f5f5dc 0%, #ffffff 50%, #f5f5dc 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="%234CAF50" stroke-width="0.5" opacity="0.1"/></svg>');
+            background-size: cover, 200px 200px;
+            border: 8px double #4CAF50;
+            box-shadow: 
+                inset 0 0 0 4px #f5f5dc,
+                inset 0 0 0 8px #8B7355,
+                0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 2px solid rgba(139, 115, 85, 0.3);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+        
+        .certificate-seal {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #FFD700, #FFA500);
+            border-radius: 50%;
+            border: 4px solid #8B7355;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+        
+        .certificate-seal-left {
+            top: 20px;
+            left: 20px;
+        }
+        
+        .certificate-seal-right {
+            bottom: 20px;
+            right: 20px;
         }
         
         .certificate-header {
-            font-size: 2rem;
+            position: relative;
+            z-index: 1;
+            font-size: 2.5rem;
             font-weight: bold;
-            color: #4CAF50;
-            margin-bottom: 1rem;
+            color: #2d5016;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .certificate-subheader {
+            font-size: 1.1rem;
+            color: #8B7355;
+            margin-bottom: 2rem;
+            font-style: italic;
+            letter-spacing: 2px;
         }
         
         .certificate-name {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: bold;
-            color: #333;
-            margin: 1rem 0;
+            color: #2d5016;
+            margin: 1.5rem 0;
+            padding: 0.5rem 2rem;
+            border-bottom: 3px solid #4CAF50;
+            display: inline-block;
+            font-family: 'Georgia', serif;
         }
         
         .certificate-course {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            color: #555;
+            margin: 1.5rem 0;
+            font-weight: 600;
         }
         
         .certificate-date {
+            color: #777;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+        }
+        
+        .certificate-signatures {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid rgba(139, 115, 85, 0.3);
+        }
+        
+        .signature-block {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .signature-line {
+            width: 200px;
+            height: 60px;
+            margin: 0 auto 0.5rem;
+            background: transparent;
+            position: relative;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 2rem;
+            color: #2d5016;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .signature-line::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #2d5016;
+        }
+        
+        .signature-title {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        
+        .signature-subtitle {
+            font-size: 0.75rem;
             color: #888;
-            font-size: 0.9rem;
+            font-style: italic;
+        }
+        
+        .certificate-qr {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            text-align: center;
+        }
+        
+        .qr-code {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border: 3px solid #4CAF50;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #666;
+            padding: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .qr-label {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 0.5rem;
+            font-weight: 600;
         }
         
         /* Admin Panel Styles */
@@ -1825,36 +1967,53 @@
             
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
                 <!-- Certificate 1 -->
-                <div style="background: linear-gradient(135deg, #4CAF50, #8BC34A); border-radius: 12px; padding: 1.5rem; color: white; position: relative; overflow: hidden;">
-                    <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
-                    <div style="position: absolute; bottom: -30px; left: -30px; width: 120px; height: 120px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                <div style="background: linear-gradient(135deg, #2d5016 0%, #4CAF50 50%, #8BC34A 100%); border-radius: 12px; padding: 1.5rem; color: white; position: relative; overflow: hidden; border: 3px solid #FFD700;">
+                    <!-- Decorative elements -->
+                    <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: rgba(255,215,0,0.2); border-radius: 50%;"></div>
+                    <div style="position: absolute; bottom: -30px; left: -30px; width: 120px; height: 120px; background: rgba(255,215,0,0.2); border-radius: 50%;"></div>
+                    <div style="position: absolute; top: 10px; left: 10px; font-size: 3rem; opacity: 0.1;">🌾</div>
+                    
                     <div style="position: relative; z-index: 1;">
-                        <div style="background: rgba(255,255,255,0.3); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 2rem;">🏆</div>
-                        <h3 style="margin: 0 0 0.5rem 0;">Fundamentos de Legumbres Premium</h3>
-                        <p style="margin: 0.5rem 0; font-size: 0.9rem; opacity: 0.9;">Completado: 15 Sep 2025</p>
-                        <p style="margin: 0.5rem 0; font-size: 0.85rem; opacity: 0.8;">Código: CL-2025-FLP-A7K92</p>
-                        <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
-                            <button class="btn btn-outline" style="background: white; color: #4CAF50; border: none; font-size: 0.85rem; padding: 8px 16px;">👁️ Ver</button>
-                            <button class="btn btn-outline" style="background: white; color: #4CAF50; border: none; font-size: 0.85rem; padding: 8px 16px;">📥 PDF</button>
-                            <button class="btn btn-outline" style="background: white; color: #4CAF50; border: none; font-size: 0.85rem; padding: 8px 16px;">🔗 Compartir</button>
+                        <div style="background: radial-gradient(circle, #FFD700, #FFA500); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem; border: 3px solid rgba(255,255,255,0.5); box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+                            🏆
+                        </div>
+                        <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">Fundamentos de Legumbres Premium</h3>
+                        <div style="background: rgba(255,255,255,0.2); padding: 0.5rem; border-radius: 8px; margin: 1rem 0;">
+                            <p style="margin: 0.25rem 0; font-size: 0.85rem; opacity: 0.95;">📅 Completado: 15 Sep 2025</p>
+                            <p style="margin: 0.25rem 0; font-size: 0.85rem; opacity: 0.95;">⏱️ 40 horas académicas</p>
+                            <p style="margin: 0.25rem 0; font-size: 0.85rem; opacity: 0.95; font-weight: bold;">🔐 Código: CL-2025-A7K92</p>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin: 1rem 0; padding: 0.5rem; background: rgba(255,255,255,0.15); border-radius: 6px;">
+                            <span style="font-size: 0.75rem;">✓ Verificado por</span>
+                            <strong style="font-size: 0.8rem;">Pecgra Agro</strong>
+                        </div>
+                        <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
+                            <button class="btn btn-outline" onclick="showCertificate('Fundamentos de Legumbres Premium')" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">👁️ Ver</button>
+                            <button class="btn btn-outline" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">📥 PDF</button>
+                            <button class="btn btn-outline" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">🔗 Compartir</button>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Certificate 2 -->
-                <div style="background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; padding: 1.5rem; color: white; position: relative; overflow: hidden;">
-                    <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
-                    <div style="position: absolute; bottom: -30px; left: -30px; width: 120px; height: 120px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                <!-- Certificate 2 - In Progress -->
+                <div style="background: linear-gradient(135deg, #8B7355 0%, #A0826D 100%); border-radius: 12px; padding: 1.5rem; color: white; position: relative; overflow: hidden; border: 3px dashed rgba(255,215,0,0.5);">
+                    <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: rgba(255,215,0,0.1); border-radius: 50%;"></div>
+                    <div style="position: absolute; bottom: -30px; left: -30px; width: 120px; height: 120px; background: rgba(255,215,0,0.1); border-radius: 50%;"></div>
+                    <div style="position: absolute; top: 10px; left: 10px; font-size: 3rem; opacity: 0.1;">🌱</div>
+                    
                     <div style="position: relative; z-index: 1;">
-                        <div style="background: rgba(255,255,255,0.3); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 2rem;">🥇</div>
-                        <h3 style="margin: 0 0 0.5rem 0;">Gestión de Calidad y Control</h3>
-                        <p style="margin: 0.5rem 0; font-size: 0.9rem; opacity: 0.9;">En progreso (45%)</p>
-                        <p style="margin: 0.5rem 0; font-size: 0.85rem; opacity: 0.8;">Estimado: 25 Oct 2025</p>
-                        <div style="margin-top: 1rem;">
-                            <div style="background: rgba(255,255,255,0.3); height: 8px; border-radius: 4px; overflow: hidden;">
-                                <div style="background: white; width: 45%; height: 100%;"></div>
-                            </div>
+                        <div style="background: rgba(255,215,0,0.3); width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem; border: 3px solid rgba(255,255,255,0.3);">
+                            📚
                         </div>
+                        <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">Gestión de Calidad y Control</h3>
+                        <div style="background: rgba(255,255,255,0.2); padding: 0.5rem; border-radius: 8px; margin: 1rem 0;">
+                            <p style="margin: 0.25rem 0; font-size: 0.9rem; opacity: 0.95; font-weight: bold;">⏳ En Progreso - 45%</p>
+                            <p style="margin: 0.25rem 0; font-size: 0.85rem; opacity: 0.9;">📅 Estimado: 25 Oct 2025</p>
+                        </div>
+                        <div style="margin: 1rem 0; background: rgba(255,255,255,0.2); height: 10px; border-radius: 5px; overflow: hidden;">
+                            <div style="background: linear-gradient(90deg, #FFD700, #FFA500); width: 45%; height: 100%; border-radius: 5px;"></div>
+                        </div>
+                        <p style="font-size: 0.75rem; opacity: 0.8; margin-top: 0.5rem;">18 de 40 lecciones completadas</p>
                     </div>
                 </div>
                 
@@ -2326,23 +2485,94 @@
             <h2 class="modal-title">🎓 Certificado de Finalización</h2>
             
             <div class="certificate">
-                <div class="certificate-header">CERTIFICADO PROFESIONAL</div>
-                <p style="color: #666;">Se otorga el presente certificado a</p>
-                <div class="certificate-name">Usuario Demo</div>
-                <p style="color: #666;">Por haber completado exitosamente el curso</p>
-                <div class="certificate-course" id="certificateCourseName">Curso</div>
-                <div style="margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
-                    <p style="font-size: 0.85rem; color: #666; margin-bottom: 0.5rem;">
-                        <strong>Institución:</strong> Club de Legumbres - Academia VIP
+                <!-- Sellos decorativos -->
+                <div class="certificate-seal certificate-seal-left">
+                    <div style="text-align: center; color: #8B7355; font-weight: bold; font-size: 0.7rem; line-height: 1.2;">
+                        <div style="font-size: 1.5rem;">🌱</div>
+                        <div>CLUB DE</div>
+                        <div>LEGUMBRES</div>
+                    </div>
+                </div>
+                <div class="certificate-seal certificate-seal-right">
+                    <div style="text-align: center; color: #8B7355; font-weight: bold; font-size: 0.7rem; line-height: 1.2;">
+                        <div style="font-size: 1.5rem;">✓</div>
+                        <div>CERTIFICADO</div>
+                        <div>OFICIAL</div>
+                    </div>
+                </div>
+                
+                <!-- Código QR de Validación -->
+                <div class="certificate-qr">
+                    <div class="qr-code" id="qrCodeContainer">
+                        <!-- QR Code generado dinámicamente -->
+                        <div style="font-size: 3rem;">⊞</div>
+                    </div>
+                    <div class="qr-label">Escanea para validar</div>
+                </div>
+                
+                <!-- Header del Certificado -->
+                <div style="margin-bottom: 2rem;">
+                    <div style="font-size: 1rem; color: #8B7355; letter-spacing: 3px; margin-bottom: 0.5rem;">🌾 CLUB DE LEGUMBRES - ACADEMIA VIP 🌾</div>
+                    <div class="certificate-header">CERTIFICADO</div>
+                    <div class="certificate-subheader">de Finalización Exitosa</div>
+                </div>
+                
+                <!-- Texto principal -->
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <p style="color: #555; font-size: 1rem; margin-bottom: 1rem;">Se certifica que</p>
+                    <div class="certificate-name">Usuario Demo</div>
+                    <p style="color: #555; font-size: 1rem; margin: 1.5rem 0;">
+                        Ha completado satisfactoriamente el programa de capacitación profesional
                     </p>
-                    <p style="font-size: 0.85rem; color: #666; margin-bottom: 0.5rem;">
-                        <strong>Duración:</strong> 40 horas académicas
-                    </p>
-                    <p style="font-size: 0.85rem; color: #666;">
-                        <strong>Código de Verificación:</strong> CL-2025-<span id="certCode"></span>
+                    <div class="certificate-course" id="certificateCourseName">Fundamentos de Legumbres Premium</div>
+                </div>
+                
+                <!-- Detalles del curso -->
+                <div style="margin: 2rem auto; padding: 1.5rem; background: rgba(139, 115, 85, 0.05); border-radius: 12px; max-width: 500px; border: 2px solid rgba(76, 175, 80, 0.2);">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; text-align: left;">
+                        <div>
+                            <p style="font-size: 0.75rem; color: #8B7355; font-weight: 600; margin-bottom: 0.25rem;">DURACIÓN</p>
+                            <p style="font-size: 0.9rem; color: #333; font-weight: 600;">40 horas académicas</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.75rem; color: #8B7355; font-weight: 600; margin-bottom: 0.25rem;">MODALIDAD</p>
+                            <p style="font-size: 0.9rem; color: #333; font-weight: 600;">Online - Asincrónico</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.75rem; color: #8B7355; font-weight: 600; margin-bottom: 0.25rem;">FECHA DE EMISIÓN</p>
+                            <p style="font-size: 0.9rem; color: #333; font-weight: 600;" id="certDate"></p>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.75rem; color: #8B7355; font-weight: 600; margin-bottom: 0.25rem;">CÓDIGO</p>
+                            <p style="font-size: 0.9rem; color: #333; font-weight: 600;">CL-<span id="certCode"></span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Firmas -->
+                <div class="certificate-signatures">
+                    <div class="signature-block">
+                        <div class="signature-line">Pecgra Agro</div>
+                        <div class="signature-title">Ing. Carlos Pérez</div>
+                        <div class="signature-subtitle">Director Académico</div>
+                        <div class="signature-subtitle">Pecgra Agro S.A.</div>
+                    </div>
+                    <div class="signature-block">
+                        <div class="signature-line">M. González</div>
+                        <div class="signature-title">Lic. María González</div>
+                        <div class="signature-subtitle">Coordinadora de Programas</div>
+                        <div class="signature-subtitle">Club de Legumbres</div>
+                    </div>
+                </div>
+                
+                <!-- Nota de validación -->
+                <div style="margin-top: 2rem; padding: 1rem; background: rgba(76, 175, 80, 0.1); border-radius: 8px; border-left: 4px solid #4CAF50;">
+                    <p style="font-size: 0.8rem; color: #2d5016; margin: 0;">
+                        <strong>✓ Certificado Verificado</strong><br>
+                        Este certificado puede ser validado en cualquier momento escaneando el código QR o visitando: 
+                        <strong>clublegumbres.com/validar/<span id="certCodeUrl"></span></strong>
                     </p>
                 </div>
-                <div class="certificate-date">Fecha de emisión: <span id="certDate"></span></div>
             </div>
             
             <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
@@ -2467,15 +2697,48 @@
         
         function showCertificate(courseName) {
             const modal = document.getElementById('certificateModal');
+            const certCode = Math.random().toString(36).substr(2, 9).toUpperCase();
+            
             document.getElementById('certificateCourseName').textContent = courseName;
             document.getElementById('certDate').textContent = new Date().toLocaleDateString('es-ES', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
             });
-            document.getElementById('certCode').textContent = Math.random().toString(36).substr(2, 9).toUpperCase();
+            document.getElementById('certCode').textContent = certCode;
+            document.getElementById('certCodeUrl').textContent = certCode;
+            
+            // Generate QR Code (simplified version - in production use a QR library)
+            generateQRCode(certCode);
+            
             modal.classList.add('show');
             document.body.style.overflow = 'hidden';
+        }
+        
+        function generateQRCode(code) {
+            // Generate a simple QR-like pattern
+            // In production, use a library like qrcode.js
+            const qrContainer = document.getElementById('qrCodeContainer');
+            const qrUrl = `https://clublegumbres.com/validar/${code}`;
+            
+            // Create QR pattern (simplified visual representation)
+            qrContainer.innerHTML = `
+                <div style="width: 100%; height: 100%; display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr); gap: 2px; padding: 5px;">
+                    ${Array(25).fill(0).map(() => 
+                        `<div style="background: ${Math.random() > 0.5 ? '#2d5016' : '#fff'}; border-radius: 2px;"></div>`
+                    ).join('')}
+                </div>
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 4px; border-radius: 4px; font-size: 0.6rem; font-weight: bold; color: #2d5016;">
+                    CL
+                </div>
+            `;
+            
+            // Note: For real QR codes, use this approach:
+            // const qrCode = new QRCode(qrContainer, {
+            //     text: qrUrl,
+            //     width: 100,
+            //     height: 100
+            // });
         }
         
         function closeCertificate() {
