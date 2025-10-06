@@ -731,6 +731,64 @@
             font-size: 0.9rem;
         }
         
+        /* Admin Panel Styles */
+        .admin-tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .admin-tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .admin-tab:hover {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.1);
+        }
+        
+        .admin-tab.active {
+            color: #4CAF50;
+            border-bottom-color: #4CAF50;
+        }
+        
+        .admin-section {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .course-list-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #4CAF50;
+            transition: transform 0.3s;
+        }
+        
+        .course-list-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .admin-btn-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
         /* Responsive Design */
         @media (max-width: 1024px) {
             .content-grid {
@@ -834,6 +892,7 @@
                 <span class="nav-item" onclick="showDashboard()">Inicio</span>
                 <span class="nav-item" onclick="showCourses()">Mis Cursos</span>
                 <span class="nav-item" onclick="showProfile()">Perfil</span>
+                <span class="nav-item" onclick="openAdminPanel()" style="color: #ff9800;">⚙️ Admin</span>
                 <div class="user-info">
                     <span style="color: #666; font-size: 0.9rem;">Usuario Demo</span>
                     <div class="user-avatar" onclick="handleLogout()">U</div>
@@ -1433,6 +1492,719 @@
         </div>
     </div>
     
+    <!-- Calendar Modal -->
+    <div id="calendarModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeCalendar()">✕</button>
+            <h2 class="modal-title">📅 Calendario de Clases en Vivo</h2>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <p style="color: #666; margin-bottom: 1rem;">Próximas sesiones en vivo y eventos especiales del Club de Legumbres</p>
+                
+                <!-- Upcoming Classes -->
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Class 1 -->
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; padding: 1.5rem; color: white;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <h3 style="margin: 0;">Negociación de Precios Internacionales</h3>
+                            <span style="background: rgba(255,255,255,0.3); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">🔴 EN VIVO</span>
+                        </div>
+                        <p style="margin: 0.5rem 0; opacity: 0.9;">📅 Viernes 8 de Octubre, 2025 • 18:00 - 20:00 hs</p>
+                        <p style="margin: 0.5rem 0; opacity: 0.9;">👤 Instructor: Dr. Carlos Martínez</p>
+                        <p style="margin: 0.5rem 0; font-size: 0.9rem; opacity: 0.85;">Aprende estrategias avanzadas para negociar precios en mercados internacionales de legumbres</p>
+                        <button class="btn btn-primary" style="margin-top: 1rem; background: white; color: #667eea;">📌 Agregar a mi Calendario</button>
+                    </div>
+                    
+                    <!-- Class 2 -->
+                    <div style="background: white; border: 2px solid #e0e0e0; border-radius: 12px; padding: 1.5rem;">
+                        <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 0.5rem;">
+                            <h3 style="margin: 0; color: #333;">Control de Calidad Post-Cosecha</h3>
+                        </div>
+                        <p style="margin: 0.5rem 0; color: #666;">📅 Martes 12 de Octubre, 2025 • 19:00 - 21:00 hs</p>
+                        <p style="margin: 0.5rem 0; color: #666;">👤 Instructor: Ing. Ana Rodríguez</p>
+                        <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">Técnicas profesionales para mantener la calidad de legumbres durante almacenamiento</p>
+                        <button class="btn btn-outline" style="margin-top: 1rem;">🔔 Recordarme</button>
+                    </div>
+                    
+                    <!-- Class 3 -->
+                    <div style="background: white; border: 2px solid #e0e0e0; border-radius: 12px; padding: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <h3 style="margin: 0; color: #333;">Marketing Digital para Exportadores</h3>
+                        </div>
+                        <p style="margin: 0.5rem 0; color: #666;">📅 Jueves 14 de Octubre, 2025 • 17:00 - 19:00 hs</p>
+                        <p style="margin: 0.5rem 0; color: #666;">👤 Instructor: Lic. Roberto Sánchez</p>
+                        <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">Estrategias digitales para posicionar tus legumbres en mercados globales</p>
+                        <button class="btn btn-outline" style="margin-top: 1rem;">🔔 Recordarme</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Forum Modal -->
+    <div id="forumModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeForum()">✕</button>
+            <h2 class="modal-title">💬 Foro de Alumnos</h2>
+            
+            <div style="margin-bottom: 1rem;">
+                <button class="btn btn-primary">➕ Nueva Discusión</button>
+                <button class="btn btn-outline" style="margin-left: 0.5rem;">🔍 Buscar</button>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <!-- Discussion 1 -->
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 1.5rem; border-left: 4px solid #4CAF50; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                        <h3 style="margin: 0; color: #333; font-size: 1.1rem;">¿Mejores prácticas para almacenar garbanzos?</h3>
+                        <span style="background: #4CAF50; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">ACTIVO</span>
+                    </div>
+                    <p style="color: #666; font-size: 0.9rem; margin: 0.5rem 0;">Iniciado por <strong>María González</strong> • Hace 2 horas</p>
+                    <p style="color: #333; margin: 0.75rem 0;">Estoy buscando recomendaciones sobre temperatura y humedad ideal para almacenar garbanzos a largo plazo...</p>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem; font-size: 0.85rem; color: #666;">
+                        <span>💬 23 respuestas</span>
+                        <span>👁️ 156 vistas</span>
+                        <span>🔥 Popular</span>
+                    </div>
+                </div>
+                
+                <!-- Discussion 2 -->
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 1.5rem; border-left: 4px solid #ff9800; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                        <h3 style="margin: 0; color: #333; font-size: 1.1rem;">Certificación Orgánica - Experiencias</h3>
+                        <span style="background: #ff9800; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">DESTACADO</span>
+                    </div>
+                    <p style="color: #666; font-size: 0.9rem; margin: 0.5rem 0;">Iniciado por <strong>Carlos Ruiz</strong> • Hace 1 día</p>
+                    <p style="color: #333; margin: 0.75rem 0;">¿Alguien ha pasado por el proceso de certificación orgánica? Me gustaría conocer sus experiencias...</p>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem; font-size: 0.85rem; color: #666;">
+                        <span>💬 45 respuestas</span>
+                        <span>👁️ 342 vistas</span>
+                        <span>⭐ Resuelto</span>
+                    </div>
+                </div>
+                
+                <!-- Discussion 3 -->
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 1.5rem; border-left: 4px solid #2196F3; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                        <h3 style="margin: 0; color: #333; font-size: 1.1rem;">Contactos para exportar a Europa</h3>
+                    </div>
+                    <p style="color: #666; font-size: 0.9rem; margin: 0.5rem 0;">Iniciado por <strong>Jorge Fernández</strong> • Hace 3 días</p>
+                    <p style="color: #333; margin: 0.75rem 0;">Busco importadores serios en España e Italia. ¿Alguien puede compartir contactos confiables?</p>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem; font-size: 0.85rem; color: #666;">
+                        <span>💬 18 respuestas</span>
+                        <span>👁️ 234 vistas</span>
+                    </div>
+                </div>
+                
+                <!-- Discussion 4 -->
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 1.5rem; border-left: 4px solid #9C27B0; cursor: pointer; transition: transform 0.3s;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                        <h3 style="margin: 0; color: #333; font-size: 1.1rem;">Precio actual de lentejas en Argentina</h3>
+                    </div>
+                    <p style="color: #666; font-size: 0.9rem; margin: 0.5rem 0;">Iniciado por <strong>Ana López</strong> • Hace 5 días</p>
+                    <p style="color: #333; margin: 0.75rem 0;">¿Cuál es el precio promedio actual de lentejas calibre 6-7mm en zona centro?</p>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem; font-size: 0.85rem; color: #666;">
+                        <span>💬 31 respuestas</span>
+                        <span>👁️ 289 vistas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Downloads Modal -->
+    <div id="downloadsModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeDownloads()">✕</button>
+            <h2 class="modal-title">📥 Material Descargable</h2>
+            
+            <p style="color: #666; margin-bottom: 1.5rem;">Recursos exclusivos para miembros VIP del Club de Legumbres</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <!-- Category 1: Templates -->
+                <div style="background: linear-gradient(135deg, #4CAF50, #8BC34A); border-radius: 12px; padding: 1.5rem; color: white;">
+                    <h3 style="margin: 0 0 1rem 0; font-size: 1.2rem;">📋 Plantillas y Formularios</h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="margin: 0; font-weight: bold;">Contrato de Compra-Venta Internacional</p>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; opacity: 0.9;">Plantilla editable en formato Word</p>
+                            </div>
+                            <button class="btn btn-outline" style="background: white; color: #4CAF50; border: none;">📥 Descargar</button>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="margin: 0; font-weight: bold;">Checklist de Control de Calidad</p>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; opacity: 0.9;">PDF imprimible para uso en planta</p>
+                            </div>
+                            <button class="btn btn-outline" style="background: white; color: #4CAF50; border: none;">📥 Descargar</button>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="margin: 0; font-weight: bold;">Formato de Análisis de Laboratorio</p>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; opacity: 0.9;">Excel con fórmulas automáticas</p>
+                            </div>
+                            <button class="btn btn-outline" style="background: white; color: #4CAF50; border: none;">📥 Descargar</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 2: Guides -->
+                <div style="background: white; border: 2px solid #e0e0e0; border-radius: 12px; padding: 1.5rem;">
+                    <h3 style="margin: 0 0 1rem 0; font-size: 1.2rem; color: #333;">📚 Guías y Manuales</h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="margin: 0; font-weight: bold; color: #333;">Guía Completa de Exportación de Legumbres</p>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: #666;">PDF - 156 páginas • Actualizado 2025</p>
+                            </div>
+                            <button class="btn btn-primary">📥 Descargar</button>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="margin: 0; font-weight: bold; color: #333;">Manual de Buenas Prácticas Agrícolas</p>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: #666;">PDF - 89 páginas • Con ilustraciones</p>
+                            </div>
+                            <button class="btn btn-primary">📥 Descargar</button>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="margin: 0; font-weight: bold; color: #333;">Estándares de Calidad Internacionales</p>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: #666;">PDF - 45 páginas • CODEX, USDA, EU</p>
+                            </div>
+                            <button class="btn btn-primary">📥 Descargar</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 3: Tools -->
+                <div style="background: white; border: 2px solid #e0e0e0; border-radius: 12px; padding: 1.5rem;">
+                    <h3 style="margin: 0 0 1rem 0; font-size: 1.2rem; color: #333;">🔧 Herramientas y Calculadoras</h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="margin: 0; font-weight: bold; color: #333;">Calculadora de Costos de Exportación</p>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: #666;">Excel interactivo con macros</p>
+                            </div>
+                            <button class="btn btn-primary">📥 Descargar</button>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <p style="margin: 0; font-weight: bold; color: #333;">Simulador de Precios FOB/CIF</p>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; color: #666;">Excel con cotizaciones actualizables</p>
+                            </div>
+                            <button class="btn btn-primary">📥 Descargar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- My Certificates Modal -->
+    <div id="myCertificatesModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeMyCertificates()">✕</button>
+            <h2 class="modal-title">🎓 Mis Certificados</h2>
+            
+            <p style="color: #666; margin-bottom: 1.5rem;">Certificados profesionales obtenidos en el Club de Legumbres</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+                <!-- Certificate 1 -->
+                <div style="background: linear-gradient(135deg, #4CAF50, #8BC34A); border-radius: 12px; padding: 1.5rem; color: white; position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                    <div style="position: absolute; bottom: -30px; left: -30px; width: 120px; height: 120px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                    <div style="position: relative; z-index: 1;">
+                        <div style="background: rgba(255,255,255,0.3); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 2rem;">🏆</div>
+                        <h3 style="margin: 0 0 0.5rem 0;">Fundamentos de Legumbres Premium</h3>
+                        <p style="margin: 0.5rem 0; font-size: 0.9rem; opacity: 0.9;">Completado: 15 Sep 2025</p>
+                        <p style="margin: 0.5rem 0; font-size: 0.85rem; opacity: 0.8;">Código: CL-2025-FLP-A7K92</p>
+                        <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                            <button class="btn btn-outline" style="background: white; color: #4CAF50; border: none; font-size: 0.85rem; padding: 8px 16px;">👁️ Ver</button>
+                            <button class="btn btn-outline" style="background: white; color: #4CAF50; border: none; font-size: 0.85rem; padding: 8px 16px;">📥 PDF</button>
+                            <button class="btn btn-outline" style="background: white; color: #4CAF50; border: none; font-size: 0.85rem; padding: 8px 16px;">🔗 Compartir</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certificate 2 -->
+                <div style="background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; padding: 1.5rem; color: white; position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                    <div style="position: absolute; bottom: -30px; left: -30px; width: 120px; height: 120px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                    <div style="position: relative; z-index: 1;">
+                        <div style="background: rgba(255,255,255,0.3); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 2rem;">🥇</div>
+                        <h3 style="margin: 0 0 0.5rem 0;">Gestión de Calidad y Control</h3>
+                        <p style="margin: 0.5rem 0; font-size: 0.9rem; opacity: 0.9;">En progreso (45%)</p>
+                        <p style="margin: 0.5rem 0; font-size: 0.85rem; opacity: 0.8;">Estimado: 25 Oct 2025</p>
+                        <div style="margin-top: 1rem;">
+                            <div style="background: rgba(255,255,255,0.3); height: 8px; border-radius: 4px; overflow: hidden;">
+                                <div style="background: white; width: 45%; height: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Certificate 3 - Locked -->
+                <div style="background: #f8f9fa; border: 2px dashed #ccc; border-radius: 12px; padding: 1.5rem; position: relative; opacity: 0.7;">
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
+                        <h3 style="margin: 0 0 0.5rem 0; color: #666;">Marketing y Exportación</h3>
+                        <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">Bloqueado</p>
+                        <p style="margin: 0.5rem 0; font-size: 0.85rem; color: #999;">Completa el curso anterior para desbloquear</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Support Modal -->
+    <div id="supportModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeSupport()">✕</button>
+            <h2 class="modal-title">👥 Soporte Técnico</h2>
+            
+            <p style="color: #666; margin-bottom: 1.5rem;">¿Necesitas ayuda? Estamos aquí para asistirte</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <div style="background: linear-gradient(135deg, #4CAF50, #8BC34A); border-radius: 12px; padding: 1.5rem; text-align: center; color: white;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚡</div>
+                    <p style="margin: 0; font-weight: bold;">Respuesta Promedio</p>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 1.5rem; font-weight: bold;">< 2 horas</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; padding: 1.5rem; text-align: center; color: white;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">⭐</div>
+                    <p style="margin: 0; font-weight: bold;">Satisfacción</p>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 1.5rem; font-weight: bold;">98.5%</p>
+                </div>
+                <div style="background: linear-gradient(135deg, #ff6b6b, #ee5a6f); border-radius: 12px; padding: 1.5rem; text-align: center; color: white;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
+                    <p style="margin: 0; font-weight: bold;">Tasa de Resolución</p>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 1.5rem; font-weight: bold;">95%</p>
+                </div>
+            </div>
+            
+            <form onsubmit="submitSupport(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                <div class="form-group">
+                    <label for="supportCategory">Categoría del Problema</label>
+                    <select id="supportCategory" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                        <option value="">Selecciona una categoría...</option>
+                        <option value="technical">Problema Técnico</option>
+                        <option value="course">Contenido del Curso</option>
+                        <option value="billing">Facturación y Pagos</option>
+                        <option value="certificate">Certificados</option>
+                        <option value="account">Cuenta y Acceso</option>
+                        <option value="other">Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="supportSubject">Asunto</label>
+                    <input type="text" id="supportSubject" required placeholder="Resume tu consulta en pocas palabras" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                </div>
+                
+                <div class="form-group">
+                    <label for="supportMessage">Mensaje</label>
+                    <textarea id="supportMessage" required rows="6" placeholder="Describe tu problema o consulta con el mayor detalle posible..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; resize: vertical;"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="supportPriority">Prioridad</label>
+                    <select id="supportPriority" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                        <option value="low">Baja - Puede esperar</option>
+                        <option value="medium" selected>Media - Dentro de 24hs</option>
+                        <option value="high">Alta - Urgente</option>
+                    </select>
+                </div>
+                
+                <div style="background: #e3f2fd; border-left: 4px solid #2196F3; padding: 1rem; border-radius: 8px; margin: 0.5rem 0;">
+                    <p style="margin: 0; color: #1565C0; font-size: 0.9rem;">
+                        💡 <strong>Consejo:</strong> Incluye capturas de pantalla si tienes un problema técnico. Puedes adjuntarlas después de enviar el ticket.
+                    </p>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">📨 Enviar Consulta</button>
+            </form>
+            
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e0e0e0;">
+                <h3 style="margin: 0 0 1rem 0; color: #333;">📞 Otros Canales de Contacto</h3>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <a href="mailto:soporte@clublegumbres.com" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; text-decoration: none; color: #333; transition: transform 0.3s;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+                        <span style="font-size: 1.5rem;">📧</span>
+                        <div>
+                            <p style="margin: 0; font-weight: bold;">Email</p>
+                            <p style="margin: 0; font-size: 0.85rem; color: #666;">soporte@clublegumbres.com</p>
+                        </div>
+                    </a>
+                    <a href="https://wa.me/5491112345678" target="_blank" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; text-decoration: none; color: #333; transition: transform 0.3s;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+                        <span style="font-size: 1.5rem;">💬</span>
+                        <div>
+                            <p style="margin: 0; font-weight: bold;">WhatsApp</p>
+                            <p style="margin: 0; font-size: 0.85rem; color: #666;">+54 9 11 1234-5678 • Lun-Vie 9-18hs</p>
+                        </div>
+                    </a>
+                    <a href="#" onclick="alert('Base de conocimientos próximamente')" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; text-decoration: none; color: #333; transition: transform 0.3s;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+                        <span style="font-size: 1.5rem;">📚</span>
+                        <div>
+                            <p style="margin: 0; font-weight: bold;">Base de Conocimientos</p>
+                            <p style="margin: 0; font-size: 0.85rem; color: #666;">Encuentra respuestas instantáneas</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Panel Modal -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content" style="max-width: 1000px;">
+            <button class="modal-close" onclick="closeAdminPanel()">✕</button>
+            <h2 class="modal-title">⚙️ Panel de Administración</h2>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="showAdminSection('courses')">📚 Gestionar Cursos</button>
+                <button class="admin-tab" onclick="showAdminSection('updates')">📢 Publicar Actualizaciones</button>
+                <button class="admin-tab" onclick="showAdminSection('stats')">📊 Estadísticas</button>
+            </div>
+            
+            <!-- Section: Manage Courses -->
+            <div id="admin-courses" class="admin-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h3 style="margin: 0; color: #333;">Cursos Disponibles</h3>
+                    <button class="btn btn-primary" onclick="openAddCourse()">➕ Añadir Nuevo Curso</button>
+                </div>
+                
+                <!-- Course 1 -->
+                <div class="course-list-item">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <div style="flex: 1;">
+                            <h3 style="margin: 0 0 0.5rem 0; color: #333;">Fundamentos de Legumbres Premium</h3>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">Aprende todo sobre lentejas, garbanzos y porotos de alta calidad</p>
+                            <div style="margin-top: 0.75rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                                <span style="color: #666; font-size: 0.85rem;">📖 3 módulos</span>
+                                <span style="color: #666; font-size: 0.85rem;">📝 12 lecciones</span>
+                                <span style="color: #666; font-size: 0.85rem;">👥 156 alumnos</span>
+                                <span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold;">ACTIVO</span>
+                            </div>
+                        </div>
+                        <div class="admin-btn-group" style="margin-left: 1rem;">
+                            <button class="btn btn-outline" onclick="openEditCourse('course-1')">✏️ Editar</button>
+                            <button class="btn btn-secondary">👁️ Vista Previa</button>
+                            <button class="btn btn-danger" onclick="deleteCourse('course-1', 'Fundamentos de Legumbres Premium')">🗑️</button>
+                        </div>
+                    </div>
+                    <div style="background: #e0e0e0; height: 6px; border-radius: 3px; overflow: hidden;">
+                        <div style="background: #4CAF50; width: 85%; height: 100%;"></div>
+                    </div>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem; color: #666; text-align: right;">85% completado promedio</p>
+                </div>
+                
+                <!-- Course 2 -->
+                <div class="course-list-item">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <div style="flex: 1;">
+                            <h3 style="margin: 0 0 0.5rem 0; color: #333;">Gestión de Calidad y Control Avanzado</h3>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">Implementa sistemas profesionales de control de calidad</p>
+                            <div style="margin-top: 0.75rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                                <span style="color: #666; font-size: 0.85rem;">📖 3 módulos</span>
+                                <span style="color: #666; font-size: 0.85rem;">📝 10 lecciones</span>
+                                <span style="color: #666; font-size: 0.85rem;">👥 142 alumnos</span>
+                                <span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold;">ACTIVO</span>
+                            </div>
+                        </div>
+                        <div class="admin-btn-group" style="margin-left: 1rem;">
+                            <button class="btn btn-outline" onclick="openEditCourse('course-2')">✏️ Editar</button>
+                            <button class="btn btn-secondary">👁️ Vista Previa</button>
+                            <button class="btn btn-danger" onclick="deleteCourse('course-2', 'Gestión de Calidad y Control')">🗑️</button>
+                        </div>
+                    </div>
+                    <div style="background: #e0e0e0; height: 6px; border-radius: 3px; overflow: hidden;">
+                        <div style="background: #4CAF50; width: 45%; height: 100%;"></div>
+                    </div>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem; color: #666; text-align: right;">45% completado promedio</p>
+                </div>
+                
+                <!-- Course 3 -->
+                <div class="course-list-item" style="border-left-color: #ff9800;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <div style="flex: 1;">
+                            <h3 style="margin: 0 0 0.5rem 0; color: #333;">Marketing y Exportación Internacional</h3>
+                            <p style="margin: 0; color: #666; font-size: 0.9rem;">Estrategias comerciales para mercados globales</p>
+                            <div style="margin-top: 0.75rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                                <span style="color: #666; font-size: 0.85rem;">📖 3 módulos</span>
+                                <span style="color: #666; font-size: 0.85rem;">📝 9 lecciones</span>
+                                <span style="color: #666; font-size: 0.85rem;">👥 89 alumnos</span>
+                                <span style="background: #ff9800; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold;">EN DESARROLLO</span>
+                            </div>
+                        </div>
+                        <div class="admin-btn-group" style="margin-left: 1rem;">
+                            <button class="btn btn-outline" onclick="openEditCourse('course-3')">✏️ Editar</button>
+                            <button class="btn btn-secondary">👁️ Vista Previa</button>
+                            <button class="btn btn-danger" onclick="deleteCourse('course-3', 'Marketing y Exportación')">🗑️</button>
+                        </div>
+                    </div>
+                    <div style="background: #e0e0e0; height: 6px; border-radius: 3px; overflow: hidden;">
+                        <div style="background: #ff9800; width: 12%; height: 100%;"></div>
+                    </div>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem; color: #666; text-align: right;">12% completado promedio</p>
+                </div>
+            </div>
+            
+            <!-- Section: Publish Updates -->
+            <div id="admin-updates" class="admin-section hidden">
+                <h3 style="margin: 0 0 1.5rem 0; color: #333;">Publicar Nueva Actualización</h3>
+                
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                    <div class="form-group">
+                        <label for="updateType">Tipo de Actualización</label>
+                        <select id="updateType" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                            <option value="feature">✨ Nueva Funcionalidad</option>
+                            <option value="course">📚 Nuevo Curso/Módulo</option>
+                            <option value="maintenance">🔧 Mantenimiento</option>
+                            <option value="announcement">📢 Anuncio General</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="updateTitle">Título de la Actualización</label>
+                        <input type="text" id="updateTitle" placeholder="Ej: Nuevo módulo de Certificaciones Internacionales" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="updateContent">Contenido</label>
+                        <textarea id="updateContent" rows="6" placeholder="Describe los detalles de la actualización..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; resize: vertical;"></textarea>
+                    </div>
+                    
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary" onclick="publishUpdate()">📤 Publicar Actualización</button>
+                        <button class="btn btn-outline">📅 Programar Publicación</button>
+                    </div>
+                </div>
+                
+                <h3 style="margin: 2rem 0 1rem 0; color: #333;">Historial de Actualizaciones</h3>
+                
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="background: white; border: 2px solid #e0e0e0; border-left: 4px solid #4CAF50; border-radius: 12px; padding: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <div>
+                                <span style="background: #4CAF50; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-right: 0.5rem;">NUEVO CURSO</span>
+                                <h4 style="margin: 0.5rem 0; color: #333;">Nuevo módulo: Certificaciones Orgánicas</h4>
+                            </div>
+                            <span style="color: #666; font-size: 0.85rem;">Hace 2 días</span>
+                        </div>
+                        <p style="margin: 0.5rem 0; color: #666;">Se ha agregado un nuevo módulo al curso de Gestión de Calidad sobre certificaciones orgánicas internacionales.</p>
+                        <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                            <button class="btn btn-outline" style="font-size: 0.85rem; padding: 6px 12px;">✏️ Editar</button>
+                            <button class="btn btn-danger" style="font-size: 0.85rem; padding: 6px 12px;">🗑️ Eliminar</button>
+                        </div>
+                    </div>
+                    
+                    <div style="background: white; border: 2px solid #e0e0e0; border-left: 4px solid #2196F3; border-radius: 12px; padding: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <div>
+                                <span style="background: #2196F3; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-right: 0.5rem;">FUNCIONALIDAD</span>
+                                <h4 style="margin: 0.5rem 0; color: #333;">Sistema de Foros Mejorado</h4>
+                            </div>
+                            <span style="color: #666; font-size: 0.85rem;">Hace 1 semana</span>
+                        </div>
+                        <p style="margin: 0.5rem 0; color: #666;">Ahora puedes subir imágenes y archivos en tus respuestas del foro.</p>
+                    </div>
+                    
+                    <div style="background: white; border: 2px solid #e0e0e0; border-left: 4px solid #ff9800; border-radius: 12px; padding: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                            <div>
+                                <span style="background: #ff9800; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-right: 0.5rem;">ANUNCIO</span>
+                                <h4 style="margin: 0.5rem 0; color: #333;">Webinar en Vivo - Exportación a Europa</h4>
+                            </div>
+                            <span style="color: #666; font-size: 0.85rem;">Hace 2 semanas</span>
+                        </div>
+                        <p style="margin: 0.5rem 0; color: #666;">Únete al webinar gratuito sobre exportación de legumbres al mercado europeo.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section: Statistics -->
+            <div id="admin-stats" class="admin-section hidden">
+                <h3 style="margin: 0 0 1.5rem 0; color: #333;">Estadísticas de la Plataforma</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div style="background: linear-gradient(135deg, #4CAF50, #8BC34A); border-radius: 12px; padding: 1.5rem; color: white; text-align: center;">
+                        <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">Total Alumnos</p>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 2.5rem; font-weight: bold;">387</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; padding: 1.5rem; color: white; text-align: center;">
+                        <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">Cursos Activos</p>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 2.5rem; font-weight: bold;">3</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #ff6b6b, #ee5a6f); border-radius: 12px; padding: 1.5rem; color: white; text-align: center;">
+                        <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">Certificados Emitidos</p>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 2.5rem; font-weight: bold;">142</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #f093fb, #f5576c); border-radius: 12px; padding: 1.5rem; color: white; text-align: center;">
+                        <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">Tasa Completitud</p>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 2.5rem; font-weight: bold;">67%</p>
+                    </div>
+                </div>
+                
+                <div style="background: white; border: 2px solid #e0e0e0; border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                    <h4 style="margin: 0 0 1rem 0; color: #333;">📈 Actividad Reciente (Últimos 7 días)</h4>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; justify-content: space-between; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                            <span style="color: #333;">Nuevos Alumnos Registrados</span>
+                            <span style="font-weight: bold; color: #4CAF50;">+23</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                            <span style="color: #333;">Lecciones Completadas</span>
+                            <span style="font-weight: bold; color: #4CAF50;">+156</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                            <span style="color: #333;">Consultas de Soporte</span>
+                            <span style="font-weight: bold; color: #ff9800;">12</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                            <span style="color: #333;">Publicaciones en Foro</span>
+                            <span style="font-weight: bold; color: #4CAF50;">+34</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: white; border: 2px solid #e0e0e0; border-radius: 12px; padding: 2rem;">
+                    <h4 style="margin: 0 0 1rem 0; color: #333;">🏆 Top 5 Cursos Más Populares</h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="padding: 1rem; background: linear-gradient(90deg, rgba(76,175,80,0.1) 0%, rgba(76,175,80,0) 100%); border-left: 4px solid #4CAF50; border-radius: 4px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-weight: bold; color: #333;">1. Fundamentos de Legumbres Premium</span>
+                                <span style="color: #666;">156 alumnos</span>
+                            </div>
+                            <div style="background: #e0e0e0; height: 6px; border-radius: 3px; overflow: hidden;">
+                                <div style="background: #4CAF50; width: 100%; height: 100%;"></div>
+                            </div>
+                        </div>
+                        <div style="padding: 1rem; background: linear-gradient(90deg, rgba(76,175,80,0.1) 0%, rgba(76,175,80,0) 100%); border-left: 4px solid #4CAF50; border-radius: 4px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-weight: bold; color: #333;">2. Gestión de Calidad y Control</span>
+                                <span style="color: #666;">142 alumnos</span>
+                            </div>
+                            <div style="background: #e0e0e0; height: 6px; border-radius: 3px; overflow: hidden;">
+                                <div style="background: #4CAF50; width: 91%; height: 100%;"></div>
+                            </div>
+                        </div>
+                        <div style="padding: 1rem; background: linear-gradient(90deg, rgba(76,175,80,0.1) 0%, rgba(76,175,80,0) 100%); border-left: 4px solid #4CAF50; border-radius: 4px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span style="font-weight: bold; color: #333;">3. Marketing y Exportación</span>
+                                <span style="color: #666;">89 alumnos</span>
+                            </div>
+                            <div style="background: #e0e0e0; height: 6px; border-radius: 3px; overflow: hidden;">
+                                <div style="background: #4CAF50; width: 57%; height: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Course Modal -->
+    <div id="editCourseModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeEditCourse()">✕</button>
+            <h2 class="modal-title">✏️ Editar Curso</h2>
+            
+            <form onsubmit="saveEditCourse(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                <input type="hidden" id="editCourseId">
+                
+                <div class="form-group">
+                    <label for="editCourseName">Nombre del Curso</label>
+                    <input type="text" id="editCourseName" required value="Fundamentos de Legumbres Premium" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editCourseDesc">Descripción</label>
+                    <textarea id="editCourseDesc" rows="4" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; resize: vertical;">Aprende todo sobre lentejas, garbanzos y porotos de alta calidad</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editCourseProgress">Progreso Promedio (%)</label>
+                    <input type="number" id="editCourseProgress" min="0" max="100" value="85" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editCourseStatus">Estado</label>
+                    <select id="editCourseStatus" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                        <option value="active" selected>Activo</option>
+                        <option value="development">En Desarrollo</option>
+                        <option value="archived">Archivado</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editCourseModules">Número de Módulos</label>
+                    <input type="number" id="editCourseModules" min="1" value="3" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editCourseLessons">Número de Lecciones</label>
+                    <input type="number" id="editCourseLessons" min="1" value="12" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                </div>
+                
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">💾 Guardar Cambios</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeEditCourse()">❌ Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add Course Modal -->
+    <div id="addCourseModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAddCourse()">✕</button>
+            <h2 class="modal-title">➕ Añadir Nuevo Curso</h2>
+            
+            <form onsubmit="saveNewCourse(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                <div class="form-group">
+                    <label for="newCourseName">Nombre del Curso</label>
+                    <input type="text" id="newCourseName" required placeholder="Ej: Producción Sostenible de Legumbres" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                </div>
+                
+                <div class="form-group">
+                    <label for="newCourseDesc">Descripción</label>
+                    <textarea id="newCourseDesc" rows="4" required placeholder="Describe el contenido y objetivos del curso..." style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; resize: vertical;"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newCourseType">Tipo de Curso</label>
+                    <select id="newCourseType" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                        <option value="">Selecciona un tipo...</option>
+                        <option value="vip">VIP - Pago</option>
+                        <option value="free">Gratuito</option>
+                        <option value="premium">Premium - Avanzado</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newCourseModules">Número de Módulos Planificados</label>
+                    <input type="number" id="newCourseModules" min="1" value="3" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                </div>
+                
+                <div class="form-group">
+                    <label for="newCourseDuration">Duración Estimada (horas)</label>
+                    <input type="number" id="newCourseDuration" min="1" placeholder="Ej: 20" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px;">
+                </div>
+                
+                <div style="background: #e3f2fd; border-left: 4px solid #2196F3; padding: 1rem; border-radius: 8px;">
+                    <p style="margin: 0; color: #1565C0; font-size: 0.9rem;">
+                        💡 <strong>Nota:</strong> Después de crear el curso, podrás agregar módulos y lecciones desde el panel de edición.
+                    </p>
+                </div>
+                
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">✅ Crear Curso</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAddCourse()">❌ Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
     <!-- Certificate Modal -->
     <div id="certificateModal" class="modal">
         <div class="modal-content">
@@ -1616,8 +2388,186 @@
             if (event.key === 'Escape') {
                 closeVideo();
                 closeCertificate();
+                closeCalendar();
+                closeForum();
+                closeDownloads();
+                closeMyCertificates();
+                closeSupport();
+                closeAdminPanel();
             }
         });
+        
+        // Quick Actions Modal Functions
+        function openCalendar() {
+            document.getElementById('calendarModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeCalendar() {
+            document.getElementById('calendarModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function openForum() {
+            document.getElementById('forumModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeForum() {
+            document.getElementById('forumModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function openDownloads() {
+            document.getElementById('downloadsModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeDownloads() {
+            document.getElementById('downloadsModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function openMyCertificates() {
+            document.getElementById('myCertificatesModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMyCertificates() {
+            document.getElementById('myCertificatesModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function openSupport() {
+            document.getElementById('supportModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeSupport() {
+            document.getElementById('supportModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function submitSupport(event) {
+            event.preventDefault();
+            const category = document.getElementById('supportCategory').value;
+            const subject = document.getElementById('supportSubject').value;
+            const message = document.getElementById('supportMessage').value;
+            const priority = document.getElementById('supportPriority').value;
+            
+            // Simulate sending support ticket
+            alert(`✅ Ticket de Soporte Enviado!\n\nCategoría: ${category}\nAsunto: ${subject}\nPrioridad: ${priority}\n\nRecibirás una respuesta en tu email dentro de 2 horas.\n\nNúmero de Ticket: #${Math.floor(Math.random() * 100000)}`);
+            
+            // Reset form
+            event.target.reset();
+            closeSupport();
+        }
+        
+        // Admin Panel Functions
+        function openAdminPanel() {
+            document.getElementById('adminModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeAdminPanel() {
+            document.getElementById('adminModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function showAdminSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
+            // Show selected section
+            document.getElementById(`admin-${section}`).classList.remove('hidden');
+            
+            // Update active tab
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        function openEditCourse(courseId) {
+            document.getElementById('editCourseId').value = courseId;
+            document.getElementById('editCourseModal').classList.add('show');
+        }
+        
+        function closeEditCourse() {
+            document.getElementById('editCourseModal').classList.remove('show');
+        }
+        
+        function saveEditCourse(event) {
+            event.preventDefault();
+            const courseId = document.getElementById('editCourseId').value;
+            const courseName = document.getElementById('editCourseName').value;
+            const courseDesc = document.getElementById('editCourseDesc').value;
+            const courseProgress = document.getElementById('editCourseProgress').value;
+            
+            alert(`✅ Curso Actualizado!\n\nID: ${courseId}\nNombre: ${courseName}\nDescripción: ${courseDesc}\nProgreso: ${courseProgress}%\n\nLos cambios se han guardado correctamente.`);
+            closeEditCourse();
+        }
+        
+        function openAddCourse() {
+            document.getElementById('addCourseModal').classList.add('show');
+        }
+        
+        function closeAddCourse() {
+            document.getElementById('addCourseModal').classList.remove('show');
+        }
+        
+        function saveNewCourse(event) {
+            event.preventDefault();
+            const courseName = document.getElementById('newCourseName').value;
+            const courseDesc = document.getElementById('newCourseDesc').value;
+            const courseType = document.getElementById('newCourseType').value;
+            
+            alert(`✅ Nuevo Curso Creado!\n\nNombre: ${courseName}\nDescripción: ${courseDesc}\nTipo: ${courseType}\n\nEl curso ha sido añadido a la plataforma.`);
+            
+            event.target.reset();
+            closeAddCourse();
+            closeAdminPanel();
+        }
+        
+        function deleteCourse(courseId, courseName) {
+            if (confirm(`⚠️ ¿Estás seguro de que deseas eliminar el curso "${courseName}"?\n\nEsta acción no se puede deshacer.`)) {
+                alert(`🗑️ Curso "${courseName}" eliminado correctamente.`);
+            }
+        }
+        
+        function publishUpdate() {
+            const updateTitle = document.getElementById('updateTitle').value;
+            const updateContent = document.getElementById('updateContent').value;
+            const updateType = document.getElementById('updateType').value;
+            
+            if (!updateTitle || !updateContent) {
+                alert('⚠️ Por favor completa todos los campos');
+                return;
+            }
+            
+            alert(`✅ Actualización Publicada!\n\nTítulo: ${updateTitle}\nTipo: ${updateType}\n\nTodos los alumnos recibirán una notificación.`);
+            
+            document.getElementById('updateTitle').value = '';
+            document.getElementById('updateContent').value = '';
+        }
+        
+        // Update modal closing
+        window.onclick = function(event) {
+            const certModal = document.getElementById('certificateModal');
+            const videoModal = document.getElementById('videoModal');
+            const calendarModal = document.getElementById('calendarModal');
+            const forumModal = document.getElementById('forumModal');
+            const downloadsModal = document.getElementById('downloadsModal');
+            const myCertificatesModal = document.getElementById('myCertificatesModal');
+            const supportModal = document.getElementById('supportModal');
+            const adminModal = document.getElementById('adminModal');
+            
+            if (event.target === certModal) closeCertificate();
+            if (event.target === videoModal) closeVideo();
+            if (event.target === calendarModal) closeCalendar();
+            if (event.target === forumModal) closeForum();
+            if (event.target === downloadsModal) closeDownloads();
+            if (event.target === myCertificatesModal) closeMyCertificates();
+            if (event.target === supportModal) closeSupport();
+            if (event.target === adminModal) closeAdminPanel();
+        }
     </script>
 </body>
 </html>
