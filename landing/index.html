@@ -534,6 +534,23 @@
             color: #4CAF50;
         }
         
+        .pdf-icon {
+            color: #f44336;
+            font-size: 1rem;
+        }
+        
+        .material-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
         .video-icon {
             color: #ff6b6b;
         }
@@ -972,22 +989,30 @@
                                             <div class="lesson-title">
                                                 <span class="lesson-check">✓</span>
                                                 <span class="video-icon">🎥</span>
+                                                <span class="pdf-icon">📄</span>
                                                 Historia y Origen de las Legumbres
                                             </div>
                                             <div class="lesson-description">Descubre el origen milenario de las legumbres y su importancia en la alimentación mundial</div>
                                         </div>
-                                        <span class="lesson-duration">12 min</span>
+                                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                            <span class="lesson-duration">12 min</span>
+                                            <span class="material-badge">📄 PDF</span>
+                                        </div>
                                     </div>
                                     <div class="lesson-item" onclick="openVideo('Valor Nutricional y Beneficios para la Salud', 'lesson-1-2')">
                                         <div class="lesson-info">
                                             <div class="lesson-title">
                                                 <span class="lesson-check">✓</span>
                                                 <span class="video-icon">🎥</span>
+                                                <span class="pdf-icon">📄</span>
                                                 Valor Nutricional y Beneficios para la Salud
                                             </div>
                                             <div class="lesson-description">Análisis detallado de proteínas, fibra, vitaminas y minerales en cada tipo de legumbre</div>
                                         </div>
-                                        <span class="lesson-duration">15 min</span>
+                                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                            <span class="lesson-duration">15 min</span>
+                                            <span class="material-badge">📄 PDF</span>
+                                        </div>
                                     </div>
                                     <div class="lesson-item" onclick="openVideo('Panorama de Mercados Globales', 'lesson-1-3')">
                                         <div class="lesson-info">
@@ -1023,11 +1048,15 @@
                                         <div class="lesson-info">
                                             <div class="lesson-title">
                                                 <span class="video-icon">🎥</span>
+                                                <span class="pdf-icon">📄</span>
                                                 Normas CODEX y Estándares Internacionales
                                             </div>
                                             <div class="lesson-description">Requisitos de calidad según organizaciones internacionales</div>
                                         </div>
-                                        <span class="lesson-duration">22 min</span>
+                                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                            <span class="lesson-duration">22 min</span>
+                                            <span class="material-badge">📄 PDF</span>
+                                        </div>
                                     </div>
                                     <div class="lesson-item" onclick="openVideo('Clasificación por Tamaño y Color', 'lesson-2-2')">
                                         <div class="lesson-info">
@@ -1469,24 +1498,109 @@
                 <h3 class="video-title" id="videoTitle">Título de la Lección</h3>
                 <button class="video-close" onclick="closeVideo()">✕</button>
             </div>
-            <div class="video-player">
-                <div class="video-placeholder">
-                    <div style="font-size: 3rem;">🎥</div>
-                    <h3>Espacio para Video de la Lección</h3>
-                    <p>Aquí se integrará el contenido de video una vez esté disponible</p>
-                    <div class="video-url-input">
-                        <label style="color: rgba(255,255,255,0.8); font-weight: 500;">URL del Video (YouTube, Vimeo, etc.):</label>
-                        <input type="text" id="videoUrlInput" placeholder="https://www.youtube.com/watch?v=..." style="margin-top: 0.5rem;">
-                        <small>Ingresa la URL del video para esta lección. El enlace se guardará automáticamente.</small>
+            
+            <!-- Tabs for Video and Materials -->
+            <div style="display: flex; gap: 0.5rem; border-bottom: 2px solid rgba(255,255,255,0.2); margin-bottom: 1rem;">
+                <button id="tabVideo" class="btn" onclick="switchLessonTab('video')" style="background: white; color: #1a1a1a; border-radius: 8px 8px 0 0; border-bottom: 3px solid white;">🎥 Video</button>
+                <button id="tabMaterials" class="btn" onclick="switchLessonTab('materials')" style="background: transparent; color: white; border-radius: 8px 8px 0 0; border-bottom: 3px solid transparent;">📄 Material PDF</button>
+            </div>
+            
+            <!-- Video Tab Content -->
+            <div id="lessonVideoContent" class="lesson-tab-content">
+                <div class="video-player">
+                    <div class="video-placeholder">
+                        <div style="font-size: 3rem;">🎥</div>
+                        <h3>Espacio para Video de la Lección</h3>
+                        <p>Aquí se integrará el contenido de video una vez esté disponible</p>
+                        <div class="video-url-input">
+                            <label style="color: rgba(255,255,255,0.8); font-weight: 500;">URL del Video (YouTube, Vimeo, etc.):</label>
+                            <input type="text" id="videoUrlInput" placeholder="https://www.youtube.com/watch?v=..." style="margin-top: 0.5rem;">
+                            <small>Ingresa la URL del video para esta lección. El enlace se guardará automáticamente.</small>
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Materials Tab Content -->
+            <div id="lessonMaterialsContent" class="lesson-tab-content" style="display: none;">
+                <div style="background: rgba(255,255,255,0.1); border-radius: 12px; padding: 2rem; min-height: 300px;">
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">📄</div>
+                        <h3 style="color: white; margin-bottom: 0.5rem;">Material de Apoyo - PDF</h3>
+                        <p style="color: rgba(255,255,255,0.8);">Descarga el material complementario de esta lección</p>
+                    </div>
+                    
+                    <!-- PDF Upload/Link Section -->
+                    <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                        <label style="color: white; font-weight: 500; display: block; margin-bottom: 0.5rem;">URL del Material PDF:</label>
+                        <input type="text" id="pdfUrlInput" placeholder="https://ejemplo.com/material-leccion.pdf" style="width: 100%; padding: 12px; border: 2px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; border-radius: 8px; margin-bottom: 0.5rem;">
+                        <small style="color: rgba(255,255,255,0.7); display: block;">Puedes subir el PDF a Google Drive, Dropbox o cualquier servicio de almacenamiento y pegar aquí el enlace público.</small>
+                    </div>
+                    
+                    <!-- PDF Info Card -->
+                    <div id="pdfInfoCard" style="background: linear-gradient(135deg, rgba(244,67,54,0.2), rgba(244,67,54,0.1)); border: 2px solid rgba(244,67,54,0.5); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;">
+                        <div style="display: flex; align-items: start; gap: 1rem;">
+                            <div style="background: rgba(244,67,54,0.3); width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0;">
+                                📑
+                            </div>
+                            <div style="flex: 1;">
+                                <h4 style="margin: 0 0 0.5rem 0; color: white;">Material Complementario</h4>
+                                <p style="margin: 0; color: rgba(255,255,255,0.9); font-size: 0.9rem;">Este PDF incluye:</p>
+                                <ul style="margin: 0.5rem 0 0 1rem; color: rgba(255,255,255,0.9); font-size: 0.85rem;">
+                                    <li>Resumen de conceptos clave</li>
+                                    <li>Ejercicios prácticos</li>
+                                    <li>Referencias y bibliografía</li>
+                                    <li>Casos de estudio reales</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Download Button -->
+                    <div style="text-align: center;">
+                        <button class="btn btn-primary" onclick="downloadPDF()" style="background: linear-gradient(135deg, #f44336, #e91e63); padding: 14px 32px; font-size: 1rem;">
+                            📥 Descargar Material PDF
+                        </button>
+                        <p style="margin-top: 1rem; color: rgba(255,255,255,0.7); font-size: 0.85rem;">
+                            💡 Tip: Descarga el material antes de ver el video para seguir mejor la clase
+                        </p>
+                    </div>
+                    
+                    <!-- Alternative: No PDF Available -->
+                    <div id="noPdfMessage" style="display: none; text-align: center; padding: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;">📭</div>
+                        <p style="color: rgba(255,255,255,0.7);">Aún no hay material PDF disponible para esta lección.</p>
+                        <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem;">El instructor lo subirá próximamente.</p>
+                    </div>
+                </div>
+            </div>
+            
             <div style="margin-top: 1rem; color: white;">
-                <p style="opacity: 0.8; font-size: 0.9rem;">
-                    <strong>Nota:</strong> Completa esta lección para avanzar al siguiente módulo
+                <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                    <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">
+                        <strong>📊 Progreso de la lección:</strong>
+                    </p>
+                    <div style="display: flex; gap: 1rem; margin-top: 0.75rem; flex-wrap: wrap;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" id="videoWatched" style="width: 18px; height: 18px;">
+                            <span>Video visto</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" id="pdfDownloaded" style="width: 18px; height: 18px;">
+                            <span>PDF descargado</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" id="exercisesCompleted" style="width: 18px; height: 18px;">
+                            <span>Ejercicios completados</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <p style="opacity: 0.8; font-size: 0.9rem; margin-bottom: 1rem;">
+                    <strong>Nota:</strong> Completa el video y descarga el material para avanzar al siguiente módulo
                 </p>
-                <button class="btn btn-primary" style="margin-top: 1rem;" onclick="markLessonComplete()">
-                    ✓ Marcar como Completada
+                <button class="btn btn-primary" style="margin-top: 0;" onclick="markLessonComplete()">
+                    ✓ Marcar Lección como Completada
                 </button>
             </div>
         </div>
@@ -2546,6 +2660,56 @@
             
             document.getElementById('updateTitle').value = '';
             document.getElementById('updateContent').value = '';
+        }
+        
+        // Lesson Tab Functions
+        function switchLessonTab(tab) {
+            const videoTab = document.getElementById('tabVideo');
+            const materialsTab = document.getElementById('tabMaterials');
+            const videoContent = document.getElementById('lessonVideoContent');
+            const materialsContent = document.getElementById('lessonMaterialsContent');
+            
+            if (tab === 'video') {
+                // Activate video tab
+                videoTab.style.background = 'white';
+                videoTab.style.color = '#1a1a1a';
+                videoTab.style.borderBottomColor = 'white';
+                
+                materialsTab.style.background = 'transparent';
+                materialsTab.style.color = 'white';
+                materialsTab.style.borderBottomColor = 'transparent';
+                
+                videoContent.style.display = 'block';
+                materialsContent.style.display = 'none';
+            } else {
+                // Activate materials tab
+                materialsTab.style.background = 'white';
+                materialsTab.style.color = '#1a1a1a';
+                materialsTab.style.borderBottomColor = 'white';
+                
+                videoTab.style.background = 'transparent';
+                videoTab.style.color = 'white';
+                videoTab.style.borderBottomColor = 'transparent';
+                
+                materialsContent.style.display = 'block';
+                videoContent.style.display = 'none';
+            }
+        }
+        
+        function downloadPDF() {
+            const pdfUrl = document.getElementById('pdfUrlInput').value;
+            
+            if (pdfUrl && pdfUrl.trim() !== '') {
+                // Open PDF in new tab
+                window.open(pdfUrl, '_blank');
+                
+                // Mark PDF as downloaded
+                document.getElementById('pdfDownloaded').checked = true;
+                
+                alert('📥 ¡Material PDF descargado!\n\nEl PDF se abrirá en una nueva pestaña.\n\nNo olvides revisar el material antes de la próxima clase.');
+            } else {
+                alert('⚠️ No hay URL de PDF configurada.\n\nPor favor, ingresa la URL del material PDF primero o contacta al instructor si el material debería estar disponible.');
+            }
         }
         
         // Update modal closing
