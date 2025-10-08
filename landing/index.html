@@ -1086,7 +1086,181 @@
                 flex-direction: column;
             }
         }
+        
+        /* ==================== ESTILOS FIREBASE - PERFIL DE USUARIO ==================== */
+        .profile-header {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            padding: 2rem;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            color: white;
+        }
+
+        .profile-avatar-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .profile-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .profile-avatar-upload {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 35px;
+            height: 35px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .profile-avatar-upload:hover {
+            background: #45a049;
+            transform: scale(1.1);
+        }
+
+        .profile-avatar-upload input {
+            display: none;
+        }
+
+        .profile-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin: 1.5rem;
+        }
+
+        .profile-stat-box {
+            text-align: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .profile-stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-stat-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .admin-dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .admin-user-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .admin-user-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .admin-user-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .admin-user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .role-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .role-admin {
+            background: #ff9800;
+            color: white;
+        }
+
+        .role-student {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4CAF50;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
+    
+    <!-- Firebase SDK Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
 </head>
 <body>
     <!-- Landing Page -->
@@ -2141,6 +2315,165 @@
         </div>
     </div>
     
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <button class="modal-close" onclick="closeProfile()">✕</button>
+            <h2 class="modal-title">👤 Mi Perfil</h2>
+            
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-avatar-container">
+                    <div class="profile-avatar-large" id="profileAvatarLarge">
+                        <span id="profileInitials">U</span>
+                        <img id="profileImage" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none;">
+                    </div>
+                    <label class="profile-avatar-upload">
+                        <input type="file" id="avatarInput" accept="image/*" onchange="uploadProfilePicture(event)">
+                        📷
+                    </label>
+                </div>
+                <h3 style="margin: 0.5rem 0;" id="profileNameDisplay">Usuario</h3>
+                <p style="opacity: 0.9; font-size: 0.9rem;" id="profileEmailDisplay">usuario@ejemplo.com</p>
+            </div>
+            
+            <!-- Profile Stats -->
+            <div class="profile-stats">
+                <div class="profile-stat-box">
+                    <div class="profile-stat-number" id="profileCoursesCount">0</div>
+                    <div class="profile-stat-label">Cursos Inscritos</div>
+                </div>
+                <div class="profile-stat-box">
+                    <div class="profile-stat-number" id="profileCertificatesCount">0</div>
+                    <div class="profile-stat-label">Certificados</div>
+                </div>
+                <div class="profile-stat-box">
+                    <div class="profile-stat-number" id="profileProgressAvg">0%</div>
+                    <div class="profile-stat-label">Progreso Promedio</div>
+                </div>
+            </div>
+            
+            <!-- Profile Form -->
+            <form id="profileForm" onsubmit="saveProfile(event)" style="padding: 2rem;">
+                <div class="profile-form-grid">
+                    <div class="form-group">
+                        <label>Nombre Completo *</label>
+                        <input type="text" id="profileName" required placeholder="Juan Pérez">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="profileEmail" required disabled placeholder="juan@ejemplo.com">
+                        <small style="color: #999;">El email no se puede cambiar</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" id="profilePhone" placeholder="+54 9 11 1234-5678">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>WhatsApp</label>
+                        <input type="tel" id="profileWhatsapp" placeholder="+54 9 11 1234-5678">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Empresa/Organización</label>
+                        <input type="text" id="profileCompany" placeholder="Mi Empresa S.A.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Cargo/Posición</label>
+                        <input type="text" id="profilePosition" placeholder="Director de Operaciones">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>País</label>
+                        <select id="profileCountry">
+                            <option value="">Seleccione...</option>
+                            <option value="AR">Argentina</option>
+                            <option value="BO">Bolivia</option>
+                            <option value="BR">Brasil</option>
+                            <option value="CL">Chile</option>
+                            <option value="CO">Colombia</option>
+                            <option value="CR">Costa Rica</option>
+                            <option value="CU">Cuba</option>
+                            <option value="EC">Ecuador</option>
+                            <option value="SV">El Salvador</option>
+                            <option value="ES">España</option>
+                            <option value="GT">Guatemala</option>
+                            <option value="HN">Honduras</option>
+                            <option value="MX">México</option>
+                            <option value="NI">Nicaragua</option>
+                            <option value="PA">Panamá</option>
+                            <option value="PY">Paraguay</option>
+                            <option value="PE">Perú</option>
+                            <option value="DO">República Dominicana</option>
+                            <option value="UY">Uruguay</option>
+                            <option value="VE">Venezuela</option>
+                            <option value="OTHER">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Ciudad</label>
+                        <input type="text" id="profileCity" placeholder="Buenos Aires">
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label>Biografía / Sobre ti</label>
+                    <textarea id="profileBio" rows="4" placeholder="Cuéntanos sobre ti, tu experiencia, intereses..."></textarea>
+                </div>
+                
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: flex-end; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-outline" onclick="closeProfile()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Admin Dashboard Modal -->
+    <div id="adminDashboardModal" class="modal">
+        <div class="modal-content" style="max-width: 1200px;">
+            <button class="modal-close" onclick="closeAdminDashboard()">✕</button>
+            <h2 class="modal-title">👑 Panel de Administrador</h2>
+            
+            <div style="padding: 2rem;">
+                <!-- Admin Stats -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div class="stat-card" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+                        <div class="stat-number" id="adminTotalUsers" style="color: white;">0</div>
+                        <div class="stat-label" style="opacity: 0.9;">Total Usuarios</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #4CAF50, #8BC34A); color: white;">
+                        <div class="stat-number" id="adminActiveUsers" style="color: white;">0</div>
+                        <div class="stat-label" style="opacity: 0.9;">Usuarios Activos</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #ff9800, #ff5722); color: white;">
+                        <div class="stat-number" id="adminNewUsers" style="color: white;">0</div>
+                        <div class="stat-label" style="opacity: 0.9;">Nuevos (7 días)</div>
+                    </div>
+                </div>
+                
+                <!-- Users List -->
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">📋 Usuarios Registrados</h3>
+                    <div id="adminUsersList" class="admin-dashboard-grid">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+                
+                <!-- Export Options -->
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="exportUsersToCSV()">📊 Exportar a CSV</button>
+                    <button class="btn btn-outline" onclick="refreshAdminData()">🔄 Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Support Modal -->
     <div id="supportModal" class="modal">
         <div class="modal-content">
@@ -2716,19 +3049,31 @@
             }
         }
         
-        function showProfile() {
-            alert('👤 PERFIL DE USUARIO\n\n⚠️ Para habilitar esta funcionalidad necesitas integrar Firebase.\n\n📚 Guías disponibles en tu repositorio:\n\n1. README_PERFIL_FIREBASE.md\n2. FIREBASE_CONFIG.md\n3. INTEGRACION_PERFIL_FIREBASE.md\n\nCon Firebase tendrás:\n✅ Perfil editable\n✅ Foto de perfil\n✅ WhatsApp, teléfono\n✅ Base de datos real\n✅ Panel de administrador\n\n¿Quieres que te ayude a integrarlo ahora?');
-        }
-        
         function handleLogout() {
             if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-                isLoggedIn = false;
-                document.getElementById('landingPage').classList.remove('hidden');
-                document.getElementById('navbar').classList.add('hidden');
-                document.getElementById('dashboard').classList.add('hidden');
-                document.getElementById('email').value = '';
-                document.getElementById('password').value = '';
-                window.scrollTo(0, 0);
+                if (auth && currentUser) {
+                    auth.signOut().then(() => {
+                        console.log("✅ Sesión cerrada");
+                        isLoggedIn = false;
+                        document.getElementById('landingPage').classList.remove('hidden');
+                        document.getElementById('navbar').classList.add('hidden');
+                        document.getElementById('dashboard').classList.add('hidden');
+                        document.getElementById('email').value = '';
+                        document.getElementById('password').value = '';
+                        window.scrollTo(0, 0);
+                    }).catch((error) => {
+                        console.error("❌ Error al cerrar sesión:", error);
+                    });
+                } else {
+                    // Fallback for non-Firebase logout
+                    isLoggedIn = false;
+                    document.getElementById('landingPage').classList.remove('hidden');
+                    document.getElementById('navbar').classList.add('hidden');
+                    document.getElementById('dashboard').classList.add('hidden');
+                    document.getElementById('email').value = '';
+                    document.getElementById('password').value = '';
+                    window.scrollTo(0, 0);
+                }
             }
         }
         
@@ -2746,10 +3091,6 @@
         
         function showCourses() {
             document.querySelector('.courses-section').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function showProfile() {
-            alert('En construcción: Perfil de usuario con configuración y estadísticas detalladas');
         }
         
         function toggleMobileMenu() {
@@ -3095,6 +3436,522 @@
             if (event.target === myCertificatesModal) closeMyCertificates();
             if (event.target === supportModal) closeSupport();
             if (event.target === adminModal) closeAdminPanel();
+        }
+        
+        // ==================== FIREBASE CONFIGURATION ====================
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyC7QwELKyru3RKoqYXLGmAYyS_c8HQv7lA",
+            authDomain: "club-legumbres.firebaseapp.com",
+            projectId: "club-legumbres",
+            storageBucket: "club-legumbres.firebasestorage.app",
+            messagingSenderId: "975439886809",
+            appId: "1:975439886809:web:0c6ad20b22b5b3ebcdc1c8",
+            measurementId: "G-JQ73YHXRRK"
+        };
+        
+        // Initialize Firebase
+        let firebaseApp, auth, db, storage;
+        let currentUser = null;
+        
+        function initFirebase() {
+            try {
+                firebaseApp = firebase.initializeApp(firebaseConfig);
+                auth = firebase.auth();
+                db = firebase.firestore();
+                storage = firebase.storage();
+                
+                // Listen to auth state changes
+                auth.onAuthStateChanged(handleAuthStateChange);
+                
+                console.log("✅ Firebase inicializado correctamente");
+            } catch (error) {
+                console.error("❌ Error al inicializar Firebase:", error);
+            }
+        }
+        
+        // Call initFirebase when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            initFirebase();
+        });
+        
+        // ==================== AUTHENTICATION ====================
+        
+        function handleAuthStateChange(user) {
+            if (user) {
+                currentUser = user;
+                loadUserProfile(user.uid);
+                updateUIForLoggedInUser(user);
+            } else {
+                currentUser = null;
+            }
+        }
+        
+        async function loginWithEmail(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value || document.getElementById('email').value;
+            const password = document.getElementById('loginPassword').value || document.getElementById('password').value;
+            
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                console.log("✅ Login exitoso:", userCredential.user.email);
+                
+                // Update last login
+                await db.collection('users').doc(userCredential.user.uid).update({
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Show dashboard
+                isLoggedIn = true;
+                document.getElementById('landingPage').classList.add('hidden');
+                document.getElementById('navbar').classList.remove('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                window.scrollTo(0, 0);
+            } catch (error) {
+                console.error("❌ Error al iniciar sesión:", error);
+                alert(getErrorMessage(error.code));
+            }
+        }
+        
+        async function registerWithEmail(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const name = document.getElementById('registerName').value;
+            
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Create user document in Firestore
+                await db.collection('users').doc(user.uid).set({
+                    email: email,
+                    name: name,
+                    role: 'student',
+                    phone: '',
+                    whatsapp: '',
+                    company: '',
+                    position: '',
+                    country: '',
+                    city: '',
+                    bio: '',
+                    profilePicture: '',
+                    created_at: firebase.firestore.FieldValue.serverTimestamp(),
+                    updated_at: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                console.log("✅ Usuario registrado:", email);
+                alert('✅ Cuenta creada exitosamente! Ahora puedes iniciar sesión.');
+            } catch (error) {
+                console.error("❌ Error al registrar:", error);
+                alert(getErrorMessage(error.code));
+            }
+        }
+        
+        function updateUIForLoggedInUser(user) {
+            db.collection('users').doc(user.uid).get().then((doc) => {
+                if (doc.exists) {
+                    const userData = doc.data();
+                    const userInfoSpan = document.querySelector('.user-info span');
+                    const userAvatar = document.querySelector('.user-avatar');
+                    
+                    if (userInfoSpan) userInfoSpan.textContent = userData.name || user.email;
+                    if (userAvatar) {
+                        if (userData.profilePicture) {
+                            userAvatar.innerHTML = `<img src="${userData.profilePicture}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                        } else {
+                            userAvatar.textContent = (userData.name || user.email).charAt(0).toUpperCase();
+                        }
+                    }
+                }
+            });
+        }
+        
+        function getErrorMessage(errorCode) {
+            const messages = {
+                'auth/email-already-in-use': 'Este email ya está registrado',
+                'auth/invalid-email': 'Email inválido',
+                'auth/weak-password': 'La contraseña debe tener al menos 6 caracteres',
+                'auth/user-not-found': 'Usuario no encontrado',
+                'auth/wrong-password': 'Contraseña incorrecta',
+                'auth/too-many-requests': 'Demasiados intentos. Intenta más tarde',
+                'auth/invalid-credential': 'Credenciales inválidas. Verifica tu email y contraseña.'
+            };
+            return messages[errorCode] || 'Error de autenticación';
+        }
+        
+        // ==================== USER PROFILE ====================
+        
+        async function showProfile() {
+            if (!currentUser) {
+                alert('Debes iniciar sesión primero');
+                return;
+            }
+            
+            const modal = document.getElementById('profileModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            
+            await loadUserProfile(currentUser.uid);
+        }
+        
+        function closeProfile() {
+            const modal = document.getElementById('profileModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        async function loadUserProfile(userId) {
+            try {
+                const userDoc = await db.collection('users').doc(userId).get();
+                
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    
+                    // Load data in form
+                    document.getElementById('profileName').value = userData.name || '';
+                    document.getElementById('profileEmail').value = userData.email || '';
+                    document.getElementById('profilePhone').value = userData.phone || '';
+                    document.getElementById('profileWhatsapp').value = userData.whatsapp || '';
+                    document.getElementById('profileCompany').value = userData.company || '';
+                    document.getElementById('profilePosition').value = userData.position || '';
+                    document.getElementById('profileCountry').value = userData.country || '';
+                    document.getElementById('profileCity').value = userData.city || '';
+                    document.getElementById('profileBio').value = userData.bio || '';
+                    
+                    // Update displays
+                    document.getElementById('profileNameDisplay').textContent = userData.name || 'Usuario';
+                    document.getElementById('profileEmailDisplay').textContent = userData.email || '';
+                    
+                    // Load profile picture
+                    if (userData.profilePicture) {
+                        document.getElementById('profileImage').src = userData.profilePicture;
+                        document.getElementById('profileImage').style.display = 'block';
+                        document.getElementById('profileInitials').style.display = 'none';
+                    } else {
+                        document.getElementById('profileInitials').textContent = (userData.name || 'U').charAt(0).toUpperCase();
+                        document.getElementById('profileInitials').style.display = 'flex';
+                        document.getElementById('profileImage').style.display = 'none';
+                    }
+                    
+                    // Load stats
+                    await loadUserStats(userId);
+                }
+            } catch (error) {
+                console.error("❌ Error al cargar perfil:", error);
+                alert('Error al cargar perfil');
+            }
+        }
+        
+        async function saveProfile(event) {
+            event.preventDefault();
+            
+            if (!currentUser) return;
+            
+            const profileData = {
+                name: document.getElementById('profileName').value,
+                phone: document.getElementById('profilePhone').value,
+                whatsapp: document.getElementById('profileWhatsapp').value,
+                company: document.getElementById('profileCompany').value,
+                position: document.getElementById('profilePosition').value,
+                country: document.getElementById('profileCountry').value,
+                city: document.getElementById('profileCity').value,
+                bio: document.getElementById('profileBio').value,
+                updated_at: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            try {
+                await db.collection('users').doc(currentUser.uid).update(profileData);
+                console.log("✅ Perfil actualizado");
+                alert('✅ Perfil actualizado exitosamente');
+                updateUIForLoggedInUser(currentUser);
+            } catch (error) {
+                console.error("❌ Error al actualizar perfil:", error);
+                alert('Error al guardar cambios');
+            }
+        }
+        
+        async function uploadProfilePicture(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Validate size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('La imagen no debe superar 2MB');
+                return;
+            }
+            
+            // Validate type
+            if (!file.type.startsWith('image/')) {
+                alert('Solo se permiten imágenes');
+                return;
+            }
+            
+            try {
+                const profileImage = document.getElementById('profileImage');
+                profileImage.style.opacity = '0.5';
+                
+                // Upload to Firebase Storage
+                const storageRef = storage.ref(`profile_pictures/${currentUser.uid}/${Date.now()}_${file.name}`);
+                const snapshot = await storageRef.put(file);
+                const downloadURL = await snapshot.ref.getDownloadURL();
+                
+                // Update Firestore
+                await db.collection('users').doc(currentUser.uid).update({
+                    profilePicture: downloadURL,
+                    updated_at: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Update UI
+                profileImage.src = downloadURL;
+                profileImage.style.display = 'block';
+                profileImage.style.opacity = '1';
+                document.getElementById('profileInitials').style.display = 'none';
+                
+                console.log("✅ Foto de perfil actualizada");
+                alert('✅ Foto de perfil actualizada');
+                updateUIForLoggedInUser(currentUser);
+            } catch (error) {
+                console.error("❌ Error al subir foto:", error);
+                alert('Error al subir foto');
+                profileImage.style.opacity = '1';
+            }
+        }
+        
+        async function loadUserStats(userId) {
+            try {
+                const progressSnapshot = await db.collection('progress').doc(userId).collection('courses').get();
+                
+                let totalProgress = 0;
+                let completedCourses = 0;
+                
+                progressSnapshot.forEach(doc => {
+                    const courseData = doc.data();
+                    totalProgress += courseData.progress || 0;
+                    if (courseData.progress === 100) completedCourses++;
+                });
+                
+                const coursesCount = progressSnapshot.size;
+                const avgProgress = coursesCount > 0 ? Math.round(totalProgress / coursesCount) : 0;
+                
+                document.getElementById('profileCoursesCount').textContent = coursesCount;
+                document.getElementById('profileCertificatesCount').textContent = completedCourses;
+                document.getElementById('profileProgressAvg').textContent = avgProgress + '%';
+            } catch (error) {
+                console.error("❌ Error al cargar estadísticas:", error);
+            }
+        }
+        
+        // ==================== ADMIN DASHBOARD ====================
+        
+        async function openAdminDashboard() {
+            if (!currentUser) {
+                alert('Debes iniciar sesión primero');
+                return;
+            }
+            
+            // Verify if admin
+            const userDoc = await db.collection('users').doc(currentUser.uid).get();
+            if (!userDoc.exists || userDoc.data().role !== 'admin') {
+                alert('No tienes permisos de administrador');
+                return;
+            }
+            
+            const modal = document.getElementById('adminDashboardModal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            
+            await loadAdminData();
+        }
+        
+        function closeAdminDashboard() {
+            const modal = document.getElementById('adminDashboardModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        async function loadAdminData() {
+            try {
+                const usersSnapshot = await db.collection('users').get();
+                const users = [];
+                
+                usersSnapshot.forEach(doc => {
+                    users.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+                
+                // Update stats
+                document.getElementById('adminTotalUsers').textContent = users.length;
+                
+                // Active users (login in last 7 days)
+                const sevenDaysAgo = new Date();
+                sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+                const activeUsers = users.filter(u => {
+                    if (!u.lastLogin) return false;
+                    const lastLogin = u.lastLogin.toDate();
+                    return lastLogin > sevenDaysAgo;
+                });
+                document.getElementById('adminActiveUsers').textContent = activeUsers.length;
+                
+                // New users (last 7 days)
+                const newUsers = users.filter(u => {
+                    if (!u.created_at) return false;
+                    const createdAt = u.created_at.toDate();
+                    return createdAt > sevenDaysAgo;
+                });
+                document.getElementById('adminNewUsers').textContent = newUsers.length;
+                
+                // Render users list
+                renderAdminUsersList(users);
+            } catch (error) {
+                console.error("❌ Error al cargar datos de admin:", error);
+                alert('Error al cargar datos');
+            }
+        }
+        
+        function renderAdminUsersList(users) {
+            const container = document.getElementById('adminUsersList');
+            
+            if (users.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">No hay usuarios registrados</p>';
+                return;
+            }
+            
+            container.innerHTML = users.map(user => `
+                <div class="admin-user-card">
+                    <div class="admin-user-header">
+                        <div class="admin-user-avatar">
+                            ${user.profilePicture ? 
+                                `<img src="${user.profilePicture}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` :
+                                (user.name || user.email).charAt(0).toUpperCase()
+                            }
+                        </div>
+                        <div style="flex: 1;">
+                            <h4 style="margin: 0;">${user.name || 'Sin nombre'}</h4>
+                            <p style="margin: 0; color: #666; font-size: 0.85rem;">${user.email}</p>
+                        </div>
+                        <span class="role-badge role-${user.role}">${user.role === 'admin' ? 'ADMIN' : 'ESTUDIANTE'}</span>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.85rem; color: #666;">
+                        <div>📱 ${user.phone || 'N/A'}</div>
+                        <div>💼 ${user.company || 'N/A'}</div>
+                        <div>🌎 ${user.country || 'N/A'}</div>
+                        <div>📅 ${user.created_at ? formatDate(user.created_at.toDate()) : 'N/A'}</div>
+                    </div>
+                    
+                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                        <button class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 12px;" onclick="viewUserDetails('${user.id}')">
+                            👁️ Ver
+                        </button>
+                        <button class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 12px;" onclick="editUserRole('${user.id}', '${user.role}')">
+                            ⚙️ Rol
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        async function viewUserDetails(userId) {
+            try {
+                const userDoc = await db.collection('users').doc(userId).get();
+                if (!userDoc.exists) return;
+                
+                const user = userDoc.data();
+                alert(`📋 DETALLES DEL USUARIO
+
+Nombre: ${user.name || 'N/A'}
+Email: ${user.email}
+Teléfono: ${user.phone || 'N/A'}
+WhatsApp: ${user.whatsapp || 'N/A'}
+Empresa: ${user.company || 'N/A'}
+Cargo: ${user.position || 'N/A'}
+País: ${user.country || 'N/A'}
+Ciudad: ${user.city || 'N/A'}
+Rol: ${user.role}
+Creado: ${user.created_at ? formatDate(user.created_at.toDate()) : 'N/A'}
+Último login: ${user.lastLogin ? formatDate(user.lastLogin.toDate()) : 'N/A'}`);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+        
+        async function editUserRole(userId, currentRole) {
+            const newRole = currentRole === 'admin' ? 'student' : 'admin';
+            
+            if (confirm(`¿Cambiar rol a ${newRole}?`)) {
+                try {
+                    await db.collection('users').doc(userId).update({
+                        role: newRole,
+                        updated_at: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    alert('✅ Rol actualizado exitosamente');
+                    await loadAdminData();
+                } catch (error) {
+                    console.error("❌ Error al cambiar rol:", error);
+                    alert('Error al cambiar rol');
+                }
+            }
+        }
+        
+        async function refreshAdminData() {
+            await loadAdminData();
+            alert('✅ Datos actualizados');
+        }
+        
+        function exportUsersToCSV() {
+            db.collection('users').get().then(snapshot => {
+                const users = [];
+                snapshot.forEach(doc => {
+                    users.push(doc.data());
+                });
+                
+                // Create CSV
+                const headers = ['Nombre', 'Email', 'Teléfono', 'WhatsApp', 'Empresa', 'Cargo', 'País', 'Ciudad', 'Rol', 'Fecha Registro'];
+                const rows = users.map(u => [
+                    u.name || '',
+                    u.email || '',
+                    u.phone || '',
+                    u.whatsapp || '',
+                    u.company || '',
+                    u.position || '',
+                    u.country || '',
+                    u.city || '',
+                    u.role || '',
+                    u.created_at ? formatDate(u.created_at.toDate()) : ''
+                ]);
+                
+                let csv = headers.join(',') + '\n';
+                rows.forEach(row => {
+                    csv += row.map(field => `"${field}"`).join(',') + '\n';
+                });
+                
+                // Download
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `usuarios_club_legumbres_${Date.now()}.csv`;
+                a.click();
+                
+                alert('✅ CSV exportado exitosamente');
+            });
+        }
+        
+        // ==================== UTILITIES ====================
+        
+        function formatDate(date) {
+            return date.toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
         }
     </script>
 </body>
