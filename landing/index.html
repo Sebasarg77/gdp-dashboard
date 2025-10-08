@@ -3016,7 +3016,45 @@
     </div>
     
     <script>
-        // Initialize
+        // ==================== CONFIGURACIÓN DE FIREBASE ====================
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyC7QwELKyru3RKoqYXLGmAYyS_c8HQv7lA",
+            authDomain: "club-legumbres.firebaseapp.com",
+            projectId: "club-legumbres",
+            storageBucket: "club-legumbres.firebasestorage.app",
+            messagingSenderId: "975439886809",
+            appId: "1:975439886809:web:0c6ad20b22b5b3ebcdc1c8",
+            measurementId: "G-JQ73YHXRRK"
+        };
+        
+        // Inicializar Firebase
+        let firebaseApp, auth, db, storage;
+        let currentUser = null;
+        
+        function initFirebase() {
+            try {
+                firebaseApp = firebase.initializeApp(firebaseConfig);
+                auth = firebase.auth();
+                db = firebase.firestore();
+                storage = firebase.storage();
+                
+                // Escuchar cambios en la autenticación
+                auth.onAuthStateChanged(handleAuthStateChange);
+                
+                console.log("✅ Firebase inicializado correctamente");
+            } catch (error) {
+                console.error("❌ Error al inicializar Firebase:", error);
+            }
+        }
+        
+        // Llamar a initFirebase cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            initFirebase();
+        });
+        
+        // ==================== VARIABLES GLOBALES ====================
+        
         let isLoggedIn = false;
         let currentLesson = null;
         
@@ -3029,24 +3067,139 @@
             }, 3000);
         }
         
+        // ==================== AUTENTICACIÓN FIREBASE ====================
+        
+        function handleAuthStateChange(user) {
+            if (user) {
+                currentUser = user;
+                loadUserProfile(user.uid);
+                updateUIForLoggedInUser(user);
+                showDashboardView();
+            } else {
+                currentUser = null;
+                if (isLoggedIn) {
+                    showLandingPage();
+                }
+            }
+        }
+        
         function handleLogin(event) {
             event.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
-            // Demo credentials
-            if (email === 'usuario@demo.com' && password === 'demo123') {
-                isLoggedIn = true;
+            // Intentar login con Firebase
+            loginWithEmail(email, password);
+        }
+        
+        async function loginWithEmail(email, password) {
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                console.log("✅ Login exitoso:", userCredential.user.email);
+                
+                // Actualizar último login
+                await db.collection('users').doc(userCredential.user.uid).update({
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
                 showAlert('¡Inicio de sesión exitoso! Redirigiendo...', 'success');
-                setTimeout(() => {
-                    document.getElementById('landingPage').classList.add('hidden');
-                    document.getElementById('navbar').classList.remove('hidden');
-                    document.getElementById('dashboard').classList.remove('hidden');
-                    window.scrollTo(0, 0);
-                }, 1000);
-            } else {
-                showAlert('Email o contraseña incorrectos. Usa las credenciales demo.');
+            } catch (error) {
+                console.error("❌ Error al iniciar sesión:", error);
+                showAlert(getErrorMessage(error.code), 'error');
             }
+        }
+        
+        async function registerWithEmail(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('registerEmail')?.value;
+            const password = document.getElementById('registerPassword')?.value;
+            const name = document.getElementById('registerName')?.value;
+            
+            if (!email || !password || !name) {
+                showAlert('Por favor completa todos los campos', 'error');
+                return;
+            }
+            
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+                
+                // Crear documento de usuario en Firestore
+                await db.collection('users').doc(user.uid).set({
+                    email: email,
+                    name: name,
+                    role: 'student',
+                    phone: '',
+                    whatsapp: '',
+                    company: '',
+                    position: '',
+                    country: '',
+                    city: '',
+                    bio: '',
+                    profilePicture: '',
+                    created_at: firebase.firestore.FieldValue.serverTimestamp(),
+                    updated_at: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                console.log("✅ Usuario registrado:", email);
+                showAlert('¡Registro exitoso! Redirigiendo...', 'success');
+            } catch (error) {
+                console.error("❌ Error al registrar:", error);
+                showAlert(getErrorMessage(error.code), 'error');
+            }
+        }
+        
+        function updateUIForLoggedInUser(user) {
+            // Actualizar avatar y nombre en navbar
+            const userInfoSpan = document.querySelector('.user-info span');
+            const userAvatar = document.querySelector('.user-avatar');
+            
+            db.collection('users').doc(user.uid).get().then((doc) => {
+                if (doc.exists) {
+                    const userData = doc.data();
+                    if (userInfoSpan) userInfoSpan.textContent = userData.name || user.email;
+                    if (userAvatar) {
+                        if (userData.profilePicture) {
+                            userAvatar.innerHTML = `<img src="${userData.profilePicture}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                        } else {
+                            userAvatar.textContent = (userData.name || user.email).charAt(0).toUpperCase();
+                        }
+                    }
+                }
+            });
+        }
+        
+        function getErrorMessage(errorCode) {
+            const messages = {
+                'auth/email-already-in-use': 'Este email ya está registrado',
+                'auth/invalid-email': 'Email inválido',
+                'auth/weak-password': 'La contraseña debe tener al menos 6 caracteres',
+                'auth/user-not-found': 'Usuario no encontrado',
+                'auth/wrong-password': 'Contraseña incorrecta',
+                'auth/too-many-requests': 'Demasiados intentos. Intenta más tarde',
+                'auth/invalid-credential': 'Credenciales inválidas. Verifica tu email y contraseña'
+            };
+            return messages[errorCode] || 'Error de autenticación';
+        }
+        
+        function showDashboardView() {
+            document.getElementById('landingPage').classList.add('hidden');
+            document.getElementById('navbar').classList.remove('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            isLoggedIn = true;
+            window.scrollTo(0, 0);
+        }
+        
+        function showLandingPage() {
+            document.getElementById('landingPage').classList.remove('hidden');
+            document.getElementById('navbar').classList.add('hidden');
+            document.getElementById('dashboard').classList.add('hidden');
+            isLoggedIn = false;
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            window.scrollTo(0, 0);
         }
         
         function handleLogout() {
