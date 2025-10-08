@@ -860,6 +860,63 @@
             font-style: italic;
         }
         
+        .validation-seal {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 20px;
+            width: 110px;
+            height: 110px;
+            background: radial-gradient(circle, #FFD700, #FFA500);
+            border-radius: 50%;
+            border: 4px double #2d5016;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            z-index: 10;
+        }
+        
+        .validation-seal::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(255,255,255,0.5);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.85);
+        }
+        
+        .seal-icon {
+            font-size: 2rem;
+            margin-bottom: 0.25rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .seal-text {
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #2d5016;
+            text-align: center;
+            line-height: 1.1;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .seal-year {
+            font-size: 0.6rem;
+            color: #2d5016;
+            font-weight: 600;
+            margin-top: 0.15rem;
+            position: relative;
+            z-index: 1;
+        }
+        
         .certificate-qr {
             display: none;
         }
@@ -2551,13 +2608,21 @@
                 </div>
                 
                 <!-- Firmas -->
-                <div class="certificate-signatures">
+                <div class="certificate-signatures" style="position: relative;">
                     <div class="signature-block">
-                        <div class="signature-line">S. Ces</div>
+                        <div class="signature-line">Sebastian Ces</div>
                         <div class="signature-title">MBA Sebastián Ces</div>
                         <div class="signature-subtitle">Director Ejecutivo</div>
                         <div class="signature-subtitle">Club de Legumbres</div>
                     </div>
+                    
+                    <!-- Sello de Validación Oficial -->
+                    <div class="validation-seal">
+                        <div class="seal-icon">✓</div>
+                        <div class="seal-text">Certificado<br>Oficial</div>
+                        <div class="seal-year">2025</div>
+                    </div>
+                    
                     <div class="signature-block">
                         <div class="signature-line">M. González</div>
                         <div class="signature-title">Lic. María González</div>
