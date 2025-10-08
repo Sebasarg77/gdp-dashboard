@@ -1170,7 +1170,7 @@
                         
                         <div class="course-actions">
                             <button class="btn btn-primary" onclick="toggleModules('course1')">Ver Contenido</button>
-                            <button class="btn btn-outline" onclick="showCertificate('Fundamentos de Legumbres Premium')">Ver Certificado</button>
+                            <button class="btn btn-outline" onclick="showCertificate('Fundamentos de Legumbres Premium', 40)">Ver Certificado</button>
                         </div>
                         
                         <div id="course1-modules" class="modules-container hidden">
@@ -2042,7 +2042,7 @@
                             <strong style="font-size: 0.8rem;">MBA Sebastián Ces</strong>
                         </div>
                         <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
-                            <button class="btn btn-outline" onclick="showCertificate('Fundamentos de Legumbres Premium')" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">👁️ Ver</button>
+                            <button class="btn btn-outline" onclick="showCertificate('Fundamentos de Legumbres Premium', 40)" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">👁️ Ver</button>
                             <button class="btn btn-outline" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">📥 PDF</button>
                             <button class="btn btn-outline" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">🔗 Compartir</button>
                         </div>
@@ -2070,7 +2070,7 @@
                             <strong style="font-size: 0.8rem;">MBA Sebastián Ces</strong>
                         </div>
                         <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
-                            <button class="btn btn-outline" onclick="showCertificate('Gestión de Calidad y Control Avanzado')" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">👁️ Ver</button>
+                            <button class="btn btn-outline" onclick="showCertificate('Gestión de Calidad y Control Avanzado', 45)" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">👁️ Ver</button>
                             <button class="btn btn-outline" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">📥 PDF</button>
                             <button class="btn btn-outline" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">🔗 Compartir</button>
                         </div>
@@ -2098,7 +2098,7 @@
                             <strong style="font-size: 0.8rem;">MBA Sebastián Ces</strong>
                         </div>
                         <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center;">
-                            <button class="btn btn-outline" onclick="showCertificate('Marketing y Exportación Internacional')" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">👁️ Ver</button>
+                            <button class="btn btn-outline" onclick="showCertificate('Marketing y Exportación Internacional', 50)" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">👁️ Ver</button>
                             <button class="btn btn-outline" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">📥 PDF</button>
                             <button class="btn btn-outline" style="background: white; color: #2d5016; border: none; font-size: 0.8rem; padding: 6px 12px;">🔗 Compartir</button>
                         </div>
@@ -2594,7 +2594,7 @@
                     <div style="display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; text-align: center;">
                         <div>
                             <p style="font-size: 0.7rem; color: #666; font-weight: 600; margin-bottom: 0.25rem; text-transform: uppercase;">Duración</p>
-                            <p style="font-size: 0.85rem; color: #000; font-weight: 600;">40 horas académicas</p>
+                            <p style="font-size: 0.85rem; color: #000; font-weight: 600;"><span id="certHours">40</span> horas académicas</p>
                         </div>
                         <div>
                             <p style="font-size: 0.7rem; color: #666; font-weight: 600; margin-bottom: 0.25rem; text-transform: uppercase;">Modalidad</p>
@@ -2760,11 +2760,12 @@
             }
         }
         
-        function showCertificate(courseName) {
+        function showCertificate(courseName, hours = 40) {
             const modal = document.getElementById('certificateModal');
             const certCode = Math.random().toString(36).substr(2, 9).toUpperCase();
             
             document.getElementById('certificateCourseName').textContent = courseName;
+            document.getElementById('certHours').textContent = hours;
             document.getElementById('certDate').textContent = new Date().toLocaleDateString('es-ES', {
                 year: 'numeric',
                 month: 'long',
