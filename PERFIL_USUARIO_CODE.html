@@ -1,0 +1,342 @@
+<!-- ============================================
+     CÓDIGO PARA AGREGAR AL landing/index.html
+     ============================================ -->
+
+<!-- PARTE 1: Agregar en la sección <head>, antes de </head> -->
+<!-- Scripts de Firebase (CDN) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+<!-- PARTE 2: Agregar estos estilos CSS dentro de la etiqueta <style> existente -->
+<style>
+/* Estilos para el Perfil de Usuario */
+.profile-header {
+    background: linear-gradient(135deg, #4CAF50, #8BC34A);
+    padding: 2rem;
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+    color: white;
+}
+
+.profile-avatar-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.profile-avatar-large {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    object-fit: cover;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+}
+
+.profile-avatar-upload {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 35px;
+    height: 35px;
+    background: #4CAF50;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: all 0.3s;
+}
+
+.profile-avatar-upload:hover {
+    background: #45a049;
+    transform: scale(1.1);
+}
+
+.profile-avatar-upload input {
+    display: none;
+}
+
+.profile-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    margin: 1.5rem;
+}
+
+.profile-stat-box {
+    text-align: center;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.profile-stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 0.5rem;
+}
+
+.profile-stat-label {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.admin-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.admin-user-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.admin-user-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.admin-user-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.role-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.role-admin {
+    background: #ff9800;
+    color: white;
+}
+
+.role-student {
+    background: #4CAF50;
+    color: white;
+}
+
+.loading-spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #4CAF50;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+
+<!-- PARTE 3: Modal de Perfil - Agregar ANTES del modal de Support (línea ~2144) -->
+    
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <button class="modal-close" onclick="closeProfile()">✕</button>
+            <h2 class="modal-title">👤 Mi Perfil</h2>
+            
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-avatar-container">
+                    <div class="profile-avatar-large" id="profileAvatarLarge">
+                        <span id="profileInitials">U</span>
+                        <img id="profileImage" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none;">
+                    </div>
+                    <label class="profile-avatar-upload">
+                        <input type="file" id="avatarInput" accept="image/*" onchange="uploadProfilePicture(event)">
+                        📷
+                    </label>
+                </div>
+                <h3 style="margin: 0.5rem 0;" id="profileNameDisplay">Usuario</h3>
+                <p style="opacity: 0.9; font-size: 0.9rem;" id="profileEmailDisplay">usuario@ejemplo.com</p>
+            </div>
+            
+            <!-- Profile Stats -->
+            <div class="profile-stats">
+                <div class="profile-stat-box">
+                    <div class="profile-stat-number" id="profileCoursesCount">0</div>
+                    <div class="profile-stat-label">Cursos Inscritos</div>
+                </div>
+                <div class="profile-stat-box">
+                    <div class="profile-stat-number" id="profileCertificatesCount">0</div>
+                    <div class="profile-stat-label">Certificados</div>
+                </div>
+                <div class="profile-stat-box">
+                    <div class="profile-stat-number" id="profileProgressAvg">0%</div>
+                    <div class="profile-stat-label">Progreso Promedio</div>
+                </div>
+            </div>
+            
+            <!-- Profile Form -->
+            <form id="profileForm" onsubmit="saveProfile(event)" style="padding: 2rem;">
+                <div class="profile-form-grid">
+                    <div class="form-group">
+                        <label>Nombre Completo *</label>
+                        <input type="text" id="profileName" required placeholder="Juan Pérez">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="profileEmail" required disabled placeholder="juan@ejemplo.com">
+                        <small style="color: #999;">El email no se puede cambiar</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" id="profilePhone" placeholder="+54 9 11 1234-5678">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>WhatsApp</label>
+                        <input type="tel" id="profileWhatsapp" placeholder="+54 9 11 1234-5678">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Empresa/Organización</label>
+                        <input type="text" id="profileCompany" placeholder="Mi Empresa S.A.">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Cargo/Posición</label>
+                        <input type="text" id="profilePosition" placeholder="Director de Operaciones">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>País</label>
+                        <select id="profileCountry">
+                            <option value="">Seleccione...</option>
+                            <option value="AR">Argentina</option>
+                            <option value="BO">Bolivia</option>
+                            <option value="BR">Brasil</option>
+                            <option value="CL">Chile</option>
+                            <option value="CO">Colombia</option>
+                            <option value="CR">Costa Rica</option>
+                            <option value="CU">Cuba</option>
+                            <option value="EC">Ecuador</option>
+                            <option value="SV">El Salvador</option>
+                            <option value="ES">España</option>
+                            <option value="GT">Guatemala</option>
+                            <option value="HN">Honduras</option>
+                            <option value="MX">México</option>
+                            <option value="NI">Nicaragua</option>
+                            <option value="PA">Panamá</option>
+                            <option value="PY">Paraguay</option>
+                            <option value="PE">Perú</option>
+                            <option value="DO">República Dominicana</option>
+                            <option value="UY">Uruguay</option>
+                            <option value="VE">Venezuela</option>
+                            <option value="OTHER">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Ciudad</label>
+                        <input type="text" id="profileCity" placeholder="Buenos Aires">
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label>Biografía / Sobre ti</label>
+                    <textarea id="profileBio" rows="4" placeholder="Cuéntanos sobre ti, tu experiencia, intereses..."></textarea>
+                </div>
+                
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: flex-end; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-outline" onclick="closeProfile()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Admin Dashboard Modal -->
+    <div id="adminDashboardModal" class="modal">
+        <div class="modal-content" style="max-width: 1200px;">
+            <button class="modal-close" onclick="closeAdminDashboard()">✕</button>
+            <h2 class="modal-title">👑 Panel de Administrador</h2>
+            
+            <div style="padding: 2rem;">
+                <!-- Admin Stats -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div class="stat-card" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+                        <div class="stat-number" id="adminTotalUsers" style="color: white;">0</div>
+                        <div class="stat-label" style="opacity: 0.9;">Total Usuarios</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #4CAF50, #8BC34A); color: white;">
+                        <div class="stat-number" id="adminActiveUsers" style="color: white;">0</div>
+                        <div class="stat-label" style="opacity: 0.9;">Usuarios Activos</div>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #ff9800, #ff5722); color: white;">
+                        <div class="stat-number" id="adminNewUsers" style="color: white;">0</div>
+                        <div class="stat-label" style="opacity: 0.9;">Nuevos (7 días)</div>
+                    </div>
+                </div>
+                
+                <!-- Users List -->
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+                    <h3 style="margin-bottom: 1rem;">📋 Usuarios Registrados</h3>
+                    <div id="adminUsersList" class="admin-dashboard-grid">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+                
+                <!-- Export Options -->
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="exportUsersToCSV()">📊 Exportar a CSV</button>
+                    <button class="btn btn-outline" onclick="refreshAdminData()">🔄 Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
