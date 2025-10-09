@@ -3160,11 +3160,8 @@
                     const userData = doc.data();
                     if (userInfoSpan) userInfoSpan.textContent = userData.name || user.email;
                     if (userAvatar) {
-                        if (userData.profilePicture) {
-                            userAvatar.innerHTML = `<img src="${userData.profilePicture}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
-                        } else {
-                            userAvatar.textContent = (userData.name || user.email).charAt(0).toUpperCase();
-                        }
+                        // Siempre mostrar iniciales (foto de perfil deshabilitada temporalmente)
+                        userAvatar.textContent = (userData.name || user.email).charAt(0).toUpperCase();
                     }
                 }
             });
