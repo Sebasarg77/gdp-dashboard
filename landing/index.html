@@ -2326,12 +2326,8 @@
                 <div class="profile-avatar-container">
                     <div class="profile-avatar-large" id="profileAvatarLarge">
                         <span id="profileInitials">U</span>
-                        <img id="profileImage" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none;">
                     </div>
-                    <label class="profile-avatar-upload">
-                        <input type="file" id="avatarInput" accept="image/*" onchange="uploadProfilePicture(event)">
-                        📷
-                    </label>
+                    <!-- Subida de foto temporalmente deshabilitada -->
                 </div>
                 <h3 style="margin: 0.5rem 0;" id="profileNameDisplay">Usuario</h3>
                 <p style="opacity: 0.9; font-size: 0.9rem;" id="profileEmailDisplay">usuario@ejemplo.com</p>
@@ -3037,12 +3033,15 @@
                 firebaseApp = firebase.initializeApp(firebaseConfig);
                 auth = firebase.auth();
                 db = firebase.firestore();
-                storage = firebase.storage();
+                
+                // Storage temporalmente deshabilitado
+                // storage = firebase.storage();
+                storage = null;
                 
                 // Escuchar cambios en la autenticación
                 auth.onAuthStateChanged(handleAuthStateChange);
                 
-                console.log("✅ Firebase inicializado correctamente");
+                console.log("✅ Firebase inicializado correctamente (sin Storage)");
             } catch (error) {
                 console.error("❌ Error al inicializar Firebase:", error);
             }
@@ -3650,7 +3649,8 @@
                 }
             } catch (error) {
                 console.error("❌ Error al cargar perfil:", error);
-                alert('Error al cargar perfil');
+                console.error("Detalles del error:", error.message);
+                showAlert('Error al cargar perfil: ' + error.message, 'error');
             }
         }
         
