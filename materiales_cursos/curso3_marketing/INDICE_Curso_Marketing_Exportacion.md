@@ -302,6 +302,18 @@ Al aprobar recibirás:
 
 ---
 
+## 📞 CONTACTO Y SOPORTE
+
+**Club de Legumbres - Capacitación Profesional VIP**
+
+💬 **WhatsApp:** https://bit.ly/Soporte_CL  
+📱 **Telegram:** @ClubLegumbresVIP  
+
+**Horario de atención:**  
+Lunes a Viernes: 9:00 - 18:00 hs (GMT-3)
+
+---
+
 **© 2025 Club de Legumbres. Todos los derechos reservados.**
 
 📌 **Nota:** Este es el índice del contenido completo. El manual detallado se entregará progresivamente durante el curso con ejemplos prácticos, casos reales actualizados y herramientas descargables.
