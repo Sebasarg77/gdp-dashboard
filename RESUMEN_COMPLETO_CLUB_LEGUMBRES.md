@@ -568,12 +568,12 @@ Cada alumno al completar un curso recibe:
 
 **Para tus alumnos:**
 - 📧 Email: soporte@clubdelegumbres.com
-- 💬 WhatsApp: [Tu número]
-- 🌐 Web: [Tu dominio]
+- 💬 WhatsApp: https://bit.ly/Soporte_CL
+- 📱 Telegram: @ClubLegumbresVIP
 
 **Para ti (administrador):**
 - 📚 Documentación completa en este repositorio
-- 🔧 Soporte técnico: [Yo, tu asistente IA] 😊
+- 🔧 Soporte técnico: Tu asistente IA 😊
 - 📊 Dashboards: Firebase Console + Admin Panel
 
 ---
