@@ -898,9 +898,8 @@ Al completar este curso y aprobar la evaluación final con ≥70%, recibirás:
 
 **Club de Legumbres - Capacitación Profesional VIP**
 
-📧 Email: soporte@clubdelegumbres.com  
-💬 WhatsApp: +54 9 11 xxxx-xxxx  
-🌐 Web: www.clubdelegumbres.com  
+
+💬 WhatsApp: https://bit.ly/Soporte_CL   
 📱 Telegram: @ClubLegumbresVIP  
 
 **Horario de atención:**  
