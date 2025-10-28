@@ -1,0 +1,65 @@
+{
+  "cohort": "Cohorte Octubre 2025",
+  "totalHours": 20,
+  "modules": [
+    {
+      "title": "Normativa, contratos y calidad por destino",
+      "durationHours": 2,
+      "topics": [
+        "Actualización de tolerancias y mermas por cultivo y plaza",
+        "Contratos comerciales, INCOTERMS y arbitrajes",
+        "Particularidades mercado interno vs. exportación"
+      ]
+    },
+    {
+      "title": "Muestreo y laboratorio avanzado",
+      "durationHours": 2,
+      "topics": [
+        "Plan de muestreo y control de sesgos",
+        "Equipamiento, calibración y trazabilidad",
+        "Aseguramiento metrológico (QA/QC)"
+      ]
+    },
+    {
+      "title": "Calidad aplicada a pricing y negociación",
+      "durationHours": 3,
+      "topics": [
+        "Descuentos/bonificaciones por calidad",
+        "Modelos de pricing por destino y calidad",
+        "Estrategias de negociación con indicadores de calidad"
+      ]
+    },
+    {
+      "title": "Gestión de riesgos comerciales",
+      "durationHours": 3,
+      "topics": [
+        "Identificación y medición del riesgo",
+        "Coberturas básicas (introducción)",
+        "Políticas de calidad y contratos"
+      ]
+    },
+    {
+      "title": "Logística, almacenaje y trazabilidad",
+      "durationHours": 2,
+      "topics": [
+        "Buenas prácticas de acondicionamiento",
+        "Pérdidas y mermas operativas",
+        "Trazabilidad y documentación"
+      ]
+    },
+    {
+      "title": "Analítica y tableros de gestión",
+      "durationHours": 2,
+      "topics": [
+        "KPIs de calidad comercial",
+        "Tableros y reporting ejecutivo",
+        "Integración de datos de laboratorio"
+      ]
+    }
+  ],
+  "capstone": {
+    "title": "Caso integrador de calidad y negociación",
+    "durationHours": 3
+  }
+}
+
